@@ -5,7 +5,11 @@ export const authStore = writable({
     loading:true,
     data: {}
 })
-
+export let dataStore = writable({
+    basicinfo:{},
+    reportlist:[],
+    conversationlist:[],
+})
 export const authHandler = {
     signup: async function(email,password,re_password){
         // Sign Up function
