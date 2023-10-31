@@ -2,7 +2,7 @@
     import { onMount } from "svelte";
     import { auth,db } from "../lib/firebase/firebase"
     import { authStore } from "../store/store"
-    const nonAuthRoutes = ["/","/aboutus","/contactus"]
+    const nonAuthRoutes = ["/","/aboutus","/contactus","/login","/register"]
 
     onMount(function(){
         console.log("Mounting")
@@ -18,7 +18,7 @@
                 window.location.href = "/dashboard"
                 return
             }
-            // Implement code for getting user details and store it in `authStore`
+            // Implement code for getting user details and store it in `dataStore.basicinfo`
         })
     })
 </script>
