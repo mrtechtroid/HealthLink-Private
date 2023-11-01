@@ -31,7 +31,6 @@
     #output{
         background-color: #36a793;
         color:white;
-        height:100vh;
         width:100vw;
         display: flex;
         flex-direction: column;

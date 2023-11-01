@@ -34,28 +34,6 @@
     </div>
 </div>
 
-<div class="pg3">
-    <h1>What have we done so far?</h1>
-    <!-- <div class="testimonies">
-        <div class="person">
-            <div><h2>Blah Blah Blah Blah</h2><h3>Name</h3></div>
-            <div><img src="test_img1.jpg"></div>
-        </div>
-        <div class="person">
-            <div><h2>Blah Blah Blah Blah</h2><h3>Name</h3></div>
-            <div><img src="test_img1.jpg"></div>
-        </div>
-        <div class="person">
-            <div><h2>Blah Blah Blah Blah</h2><h3>Name</h3></div>
-            <div><img src="test_img1.jpg"></div>
-        </div>
-    </div> -->
-
-</div>
-
-
-
-
 
 
 <style>
