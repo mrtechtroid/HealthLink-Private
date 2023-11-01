@@ -9,10 +9,10 @@
         const unsubscribe = auth.onAuthStateChanged(async user => {
             const currentPath = window.location.pathname
             // If user is logged out OR User is not in a page which doesnt require authentication. Redirect him
-            if (!user && !nonAuthRoutes.includes(currentPath)){
-                window.location.href = "/"
-                return
-            }
+            // if (!user && !nonAuthRoutes.includes(currentPath)){
+            //     window.location.href = "/"
+            //     return
+            // }
             // If user was already logged in, and he is in landing page, redirect him to dashboard.
             if (user && currentPath == "/"){
                 window.location.href = "/dashboard"
