@@ -1,5 +1,9 @@
 <script>
     import { goto } from "$app/navigation";
+    import { page } from "$app/stores";
+    import { browser } from "$app/environment";
+    import { onDestroy } from "svelte";
+    import { onMount } from 'svelte';
 </script>
 <div
     id="dashboard"
@@ -66,11 +70,12 @@
     </div>
     <div
         id="div_main"
-        style="display: flex;flex-direction:column;flex-wrap:wrap;background-color:white;width:100%;background-color:rgb(120, 230, 206);"
+        style="display: flex;flex-direction:column;background-color:white;width:100%;background-color:rgb(120, 230, 206);"
     >
-    <div id = "div_main_head" style = "height:60px;background-color:#009688;padding:10px;display:flex;align-items:center;flex-direction:column">
-        <span style="font-size: 40px;">Conversations</span>
+    <div id = "div_main_head" style = "height:60px;background-color:#009688;padding:10px;display:flex;align-items:center;">
+        <span style="font-size: 40px;">Video Chat</span>
     </div>
+    <iframe style = "width:100%;height:90%;" allow="camera; microphone" src = {"https://mtt.one/minis/jitsimeet#/videocall/"+"HealthLink-" + $page.params.slug}></iframe>
     </div>
 </div>
 

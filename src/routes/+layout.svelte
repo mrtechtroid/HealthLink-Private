@@ -29,9 +29,10 @@
 
 <style>
     #output{
-        background-color: #36a793;
+        background-color: rgb(255, 255, 255);
         color:white;
         width:100vw;
+        min-height:100vh;
         display: flex;
         flex-direction: column;
         align-items: center;
