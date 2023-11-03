@@ -70,6 +70,12 @@
       alert("Confirm password is not the same as password");
       return;
     }
+
+    if (password!=confirmpassword){
+      alert("Confirm Password should be the same as password.");
+      return;
+    }
+    
     await authHandlers.signup(email, password);
     console.log("12345");
 
