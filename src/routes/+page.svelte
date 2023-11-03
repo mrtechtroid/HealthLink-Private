@@ -2,8 +2,8 @@
     <div class="navbar">
         <img src="healthlink.png" class="logo" />
         <ul>
-            <li><a href="#">Log in</a></li>
-            <li><a href="#">Sign up</a></li>
+            <li><a href="./login">Log in</a></li>
+            <li><a href="./register">Sign up</a></li>
         </ul>
     </div>
     <div class="content">
