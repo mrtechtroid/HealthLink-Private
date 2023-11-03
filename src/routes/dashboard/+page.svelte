@@ -29,12 +29,6 @@
     let dataLocal;
     let authLocal;
 
-    const unsubscribe = dataStore.subscribe((value) => {
-        dataLocal = value;
-    });
-    const unsubscribe1 = authStore.subscribe((value) => {
-        authLocal = value;
-    });
     async function createChatbotChat() {
         const docRef = await addDoc(collection(db, "chat"), {
             chat_ended: false,
@@ -44,7 +38,7 @@
                 {
                     role: "system",
                     content:
-                        "You are a medical illness diagnosing chatbot. Greet the user, ask various concise non-sympathetic questions such as patient's symptoms, duration of symptoms, etc and identify the illness they are having and type of doctor they have to consult.After identification, reroute the user to correct doctor.",
+                        "You are a medical illness diagnosing chatbot. Ask various concise non-sympathetic questions such as patient's symptoms, duration of symptoms, any past medical conditions, etc. Ask follow up questions to narrow down the possible illness. Identify the illness they are having and type of doctor they have to consult. Ask follow up questions .  After identification, reroute the user to correct doctor. The patient has diabetes.",
                 },
             ],
             doctor_id: "CHATBOT",
@@ -55,11 +49,39 @@
         });
         goto("/r/chat~" + docRef.id);
     }
-    onDestroy(function () {
-        unsubscribe();
-        unsubscribe1();
-    });
 </script>
+
 <Dashboard>
-    <h1>Hi</h1>
+    <div
+        style="height:20%;display:flex;flex-direction:column;justify-content:center;"
+    >
+        <span>Welcome Back,</span>
+        <span style="font-size:25px;font-weight:bold;">Andrew Smith</span>
+    </div>
+    <div style="display: flex;flex-direction:row;flex-wrap:wrap;">
+        <div class = "click_btn" style="background-color: #1ebfc4;" on:click={createChatbotChat}><i class='bx bx-plus-medical'></i><span>Chat with MediBot</span></div>
+    </div>
 </Dashboard>
+
+<style>
+    .click_btn {
+        width: 200px;
+        height: 150px;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
+        border-radius: 10px;
+        cursor:pointer;
+        margin:10px;
+    }
+    .click_btn span {
+        font-size:20px;
+    }
+    .click_btn i{
+        font-size:50px;
+    }
+    .click_btn:hover{
+        filter:grayscale(0.5)
+    }
+</style>

@@ -1,35 +1,39 @@
 <script>
     import { page } from "$app/stores";
-    import { db } from "../../../lib/firebase/firebase";
+    import { db } from "../lib/firebase/firebase"
     import { authStore,dataStore } from "../store/store";
     import { goto } from "$app/navigation";
+    let dataLocal = null
+    const unsubscribe = dataStore.subscribe((value) => {
+        dataLocal = value.basicinfo
+    });
 </script>
 <div class="container">
     <div class="left_sidebar">
         <div class="menu_items">
             <div class="menu_item"><div class = "logo"/></div>
-            <div class="menu_item">
+            <div class="menu_item" on:click={function(){goto("/dashboard")}}>
                 <i class="bx bxs-dashboard" />
                 <p>Dashboard</p>
             </div>
-            <div class="menu_item">
+            <div class="menu_item" on:click={function(){goto("/chat")}}>
                 <i class="bx bx-message-rounded-dots" />
                 <p>Conversations</p>
                 <i class="fa-regular fa-circle-2" />
             </div>
-            <div class="menu_item">
+            <div class="menu_item" on:click={function(){goto("/reports")}}>
                 <i class="bx bx-calendar" />
                 <p>Reports</p>
             </div>
-            <div class="menu_item">
+            <div class="menu_item" on:click={function(){goto("/appointments")}}>
                 <i class="bx bx-file-blank" />
                 <p>Appointments</p>
             </div>
-            <div class="menu_item">
+            <div class="menu_item" on:click={function(){goto("/profile")}}>
                 <i class="bx bx-user-circle" />
                 <p>Profile</p>
             </div>
-            <div class="menu_item">
+            <div class="menu_item" on:click={function(){goto("/settings")}}>
                 <i class="bx bx-cog" />
                 <p>Settings</p>
             </div>
@@ -47,29 +51,31 @@
                 />
             </div>
             <div class="name_and_class">
-                <p>{dataStore.basicinfo.name}</p>
-                <span>{#if dataStore.basicinfo.is_doctor}Doctor{:else}User{/if}</span>
+                <p>{dataLocal.name}</p>
+                <span>{#if dataLocal.is_doctor}Doctor{:else}User{/if}</span>
             </div>
             <div class="other_info">
                 <div class="about">
                     <h4>Past/Current Illnesses</h4>
                     <p>
-                        {#each dataStore.basicinfo.past_disease as item}
+                        {#if dataLocal.past_disease != undefined}
+                        {#each dataLocal.past_disease as item}
                             {item},
                         {/each}
+                        {/if}
                     </p>
                 </div>
                 <div class="gender">
                     <h4>Gender</h4>
-                    <p>{dataStore.basicinfo.gender}</p>
+                    <p>{dataLocal.gender}</p>
                 </div>
                 <div class="dob">
                     <h4>DOB</h4>
-                    <p>{dataStore.basicinfo.dob}</p>
+                    <p>{dataLocal.dob}</p>
                 </div>
                 <div class="address">
                     <h4>Address</h4>
-                    <p>{dataStore.basicinfo.place}</p>
+                    <p>{dataLocal.place}</p>
                 </div>
             </div>
         </div>
@@ -144,7 +150,6 @@
         width: 60vw;
         display: flex;
         flex-direction: column;
-        gap: 30px;
         padding: 0 20px;
         transition: all 0.3s ease-in-out;
         overflow-y: scroll;
@@ -226,7 +231,9 @@
     .profile .student_from_same_class img:nth-child(1) {
         margin-left: 0 !important;
     }
-
+    .menu_item:hover{
+        background-color: #5bb9c0;
+    }
     .profile .student_from_same_class h4 {
         font-weight: 600;
         font-size: 14px;
