@@ -29,15 +29,16 @@
 </div>
 
 <style>
-  #output {
-    background-color: #e5e9ec;
-    color: #0f1821;
-    height: 100vh;
-    width: 100vw;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-family: Nunito;
-  }
+    #output{
+        background-color: rgb(255, 255, 255);
+        color:white;
+        width:100vw;
+        min-height:100vh;
+        min-width:300px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-family: Nunito;
+    }
 </style>
