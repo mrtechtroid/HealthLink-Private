@@ -325,18 +325,6 @@
         margin-bottom: 3vh;
         text-align: left;
     }
-    .person .h4
-    {text-align: left;
-    margin-left: 3%;}
-    .person .h3
-    {text-align: left;
-    margin-left: 3vw;}
-    .person .p
-    {text-align: left;
-    margin-left: 3vw;}
- 
-
-
     .test_img
     {
       width: 100%;
