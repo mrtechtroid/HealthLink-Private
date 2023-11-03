@@ -2,6 +2,7 @@
 <script>
   import { auth } from "../../lib/firebase/firebase";
   import { goto } from "$app/navigation";
+  import { db } from "../../lib/firebase/firebase";
   import {
     getAuth,
     onAuthStateChanged,
@@ -59,27 +60,27 @@
     // Unsubscribe from the auth state changes when the component is destroyed
     unsubscribe();
   });
+
   async function handleAuthenticate() {
-    if (!email || !password) {
-      error = true;
+    if (!email || !password || !confirmpassword) {
+      alert("Please fill all the fields");
+      return;
+    }
+    if (confirmpassword != password) {
+      alert("Confirm password is not the same as password");
       return;
     }
     await authHandlers.signup(email, password);
     console.log("12345");
-    goto("/dashboard");
+
+    goto("/onboarding");
   }
 </script>
 
 <div class="authContainer">
   <h1>Sign Up</h1>
   <label>
-    <input
-      bind:value={email}
-      type="email"
-      id="email"
-      placeholder="Email"
-      required
-    />
+    <input bind:value={email} type="email" id="email" placeholder="Email" />
   </label>
   <label>
     <input
@@ -87,7 +88,6 @@
       type="password"
       id="password"
       placeholder="Password"
-      required
     />
   </label>
   <label>
@@ -96,7 +96,6 @@
       type="password"
       id="confirmpassword"
       placeholder="Confirm Password"
-      required
     />
   </label>
   <button type="submit" on:click={handleAuthenticate}>Submit </button>
