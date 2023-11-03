@@ -152,15 +152,15 @@
     }
     function check_chatBot(db_messages) {
         let count_mild_severe = 0;
+        let count_predicted_illness = 0;
         for (var i = db_messages.length - 1; i >= 0; i--) {
             if (
                 db_messages[i].role == "assistant" &&
                 db_messages[i].predicted_illness != ""
             ) {
-                askHealthCareProf();
-                return false;
+                count_predicted_illness+=1
             }
-            if (count_mild_severe > 1) {
+            if (count_mild_severe >= 2 || count_predicted_illness>=2) {
                 askHealthCareProf();
                 return false;
             }
@@ -293,7 +293,7 @@
                 },
             ],
             function_call: { name: "e" },
-            temperature: 0.3,
+            temperature: 0.2,
             max_tokens: 256,
             top_p: 1,
             frequency_penalty: 0,
@@ -323,8 +323,8 @@
                 <button
                     type="submit"
                     class="msger-send-btn"
-                    on:click={function(){goto("/r/reports~"+reportID)}}
-                    disabled={chatInfo.chat_ended}>Patient Report</button
+                    on:click={function(){goto("/r/reports~"+chatInfo.report)}}
+                    disabled={!chatInfo.chat_ended}>Patient Report</button
                 >
             </div>
             <main class="msger-chat" id = "msger-chat" bind:this={msgrchat}>
@@ -403,9 +403,9 @@
                 {#if chatInfo.chat_ended}
                     <div style="color:black">This Conversation has Ended.</div>
                 {/if}
-                    {#if doctorList != []}
-                    <span style="color:black">Choose a Specialist to Talk From:</span>
+                    {#if doctorList.length != 0}
                         {#if !chatInfo.doctor_chosen}
+                            <span style="color:black">Choose a Specialist to Talk From:</span>
                             <div style="display: flex;flex-direction:row;color:black;width:100%;overflow-x:scroll;">
                             {#each doctorList as item, index}
                                 <div
@@ -434,7 +434,6 @@
                                 }}>Chat with Doctor</button
                             >
                         {/if}
-                    
                     {/if}
                 
             </main>
