@@ -72,6 +72,7 @@
 
 <div class="authContainer">
   <h1>Sign Up</h1>
+  <br>
   <label>
     <input
       bind:value={email}
@@ -81,6 +82,7 @@
       required
     />
   </label>
+  <br>
   <label>
     <input
       bind:value={password}
@@ -90,6 +92,7 @@
       required
     />
   </label>
+  <br>
   <label>
     <input
       bind:value={confirmpassword}
@@ -99,7 +102,9 @@
       required
     />
   </label>
-  <button type="submit" on:click={handleAuthenticate}>Submit </button>
+  <br><br>
+  <button class = "button" type="submit" on:click={handleAuthenticate}>Submit </button>
+  <br>
   <p>
     Already have an account?
     <a href="../../login"> Login </a>
@@ -107,6 +112,7 @@
 </div>
 
 <style>
+
   .authContainer {
     display: flex;
     flex-direction: column;
@@ -115,34 +121,55 @@
     flex: 1;
   }
 
-  form {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
+  .button{
+    background-color:rgb(120, 230, 206) ;
+    width:25%;
+    color: white;
+    text-align: center;
+    font-size: 30px;
+    border-radius:12px;
   }
 
-  form input {
+   label {
+    background-color:aliceblue;
+    width: 300px;
+    font-size: 20px;
+    border-style: solid;
+
+  }
+
+  p{
+    color:black;
+  }
+
+  div{
     width: 100%;
+    height:500%;
+    background-image: linear-gradient(
+                rgba(206, 252, 241, 0.9),
+                rgba(244, 222, 255, 0.9)
+            ),
+            url(bgvev1.png);
   }
 
   h1 {
     text-align: center;
-    color: white;
+    color:#009688;
     border: 1px;
     border-radius: 5px;
-    background: #40aeae;
     padding: 2px;
     font-family: sans-serif;
     font-size: xx-large;
   }
 
-  form label {
+  label {
     position: relative;
     border: 1px solid Onavy;
     border-radius: 5px;
   }
 
-  form input {
+  input {
+    width: 300px;
     border: none;
     background: transparent;
     color: black;
