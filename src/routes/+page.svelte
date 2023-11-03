@@ -6,38 +6,32 @@
             <li><a href="#">Sign up</a></li>
         </ul>
     </div>
-
     <div class="content">
-        <h1>Affordable health-care at your Fingertips</h1>
+        <div><span>Affordable health-care<br>at your Fingertips</span></div>
         <div>
-            <button type="button"><span />CHAT NOW</button>
-            <button type="button"><span />BOOK AN APPOINTMENT</button>
+            <button type="button">CHAT NOW</button>
+            <button type="button">BOOK AN APPOINTMENT</button>
         </div>
     </div>
-
-    
 </div>
-<!-- <img src="phone_chat_blue.png" class="pic1" /> -->
 <div class="pg2">
     <h1>How do we do it?</h1>
     <div class="feature">
         <div><img src="feat_img1 (2).png" class="feat_img" /></div>
         <div>
             <h2>
-                Hello and warm welscome to our veoigfute website ad a i doiwnt
-                knwo what i am doing. Hello hello what are pu doing i myself
-                dont know.
+                Chat with Doctors 24x7
             </h2>
+            <span>Get access to our specialist team of doctors, instantly with just a few clicks on your phone. </span>
         </div>
     </div>
     <!-- <img src="arrow-4.png" class="pic2"> -->
     <div class="feature">
         <div>
             <h2>
-                Hello and warm welscome to our veoigfute website ad a i doiwnt
-                knwo what i am doing. Hello hello what are pu doing i myself
-                dont know.
+                Instant Reports
             </h2>
+            <span>Had a Consulation/Chat? Get an instant report from your doctor diagonsing your condition for further references. </span>
         </div>
         <div><img src="feat_img2 (2).png" class="feat_img" /></div>
     </div>
@@ -46,10 +40,9 @@
         <div><img src="feat_img3 (2).png" class="feat_img" /></div>
         <div>
             <h2>
-                Hello and warm welscome to our veoigfute website ad a i doiwnt
-                knwo what i am doing. Hello hello what are pu doing i myself
-                dont know.
+                Our Advanced Chatbot
             </h2>
+            <span>For lessening the burden on our specialists, our highly trained chatbot, will first help us in identifying all your symptoms and medical history. </span>
         </div>
     </div>
 </div>
@@ -80,7 +73,7 @@
       
     </div>
   </div>
-
+<hr color = "white" width="100%">
 <div class="pg4">
 
 </div>
@@ -143,13 +136,19 @@
     }
 
     .content {
-        width: 60%;
+        width: 100%;
         text-align: center;
         color: #ffffff;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height:100%;
+        justify-content: center;
     }
-    .content h1 {
+    .content span {
         font-size: min(60px, 10vh);
         margin-top: 80px;
+        font-weight: bold;
     }
 
     button {
@@ -165,18 +164,6 @@
         cursor: pointer;
         position: relative;
         overflow: hidden;
-    }
-
-    span {
-        background: #009688;
-        height: 100%;
-        width: 0%;
-        border-radius: 25px;
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        
-        transition: 0.5s;
     }
 
     /* button:hover span 
@@ -202,6 +189,10 @@
         background-color: rgb(206, 252, 241);
         background-size: cover;
         background-position: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding:30px;
         color: #96000e;
         background-image: linear-gradient(
                 rgba(206, 252, 241, 0.9),
@@ -213,8 +204,8 @@
 
     .pg2 h1 {
         font-size: min(60px, 7vh);
-        margin-left: 25%;
-        margin-top: 5%;
+        /* margin-left: 25%;
+        margin-top: 5%; */
     }
     .feat_img {
         width: 100%;
@@ -239,25 +230,24 @@
         width: 45%;
         min-width: 250px;
         transition: 0.2s;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .feature div h2{
+        font-size:25px;
+    }
+    .feature div span{
+        max-width:400px;
     }
 
-    .feature div:hover {
+    .feature div img:hover {
         transform: scale(1.1);
     }
 
-    .feature div:hover {
+    .feature div img:hover {
         transform: scale(1.1);
     }
-
-    /* .pic2
-{
-    position: relative;
-    width: 40%;
-    height: 10%;
-    top: -20    vh;
-    bottom: -20 vh;
-    left: 55vw;
-} */
     .pic3 {
         position: relative;
         width: 45vw;
@@ -272,6 +262,10 @@
         background-size: cover;
         background-position: center;
         color: #96000e;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding:30px;
     }
 
     .pg4
@@ -286,8 +280,6 @@
     }
     .pg3 h1 {
         font-size: min(40px, 7vh);
-        margin-left: 15vw;
-        margin-top: 5%;
         text-align: center;
     }
 
@@ -309,7 +301,7 @@
     .person
     {
       width: 25vw;
-      min-width: 400px;
+      min-width: 300px;
       margin-top: 3vh;
       margin-bottom: 3vh;
       margin-left: 1vw;

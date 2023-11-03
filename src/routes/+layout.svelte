@@ -33,6 +33,7 @@
         color:white;
         width:100vw;
         min-height:100vh;
+        min-width:300px;
         display: flex;
         flex-direction: column;
         align-items: center;
