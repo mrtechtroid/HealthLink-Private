@@ -2,7 +2,8 @@
   import { onMount } from "svelte";
   import { db } from "../lib/firebase/firebase";
   import { auth } from "../lib/firebase/firebase";
-  import { authStore } from "../store/store";
+  import { authStore, dataStore } from "../store/store";
+  import { serverTimestamp } from "firebase/firestore";
   const nonAuthRoutes = ["/", "/aboutus", "/contactus", "/login", "/register"];
 
   onMount(function () {
@@ -17,8 +18,33 @@
       // If user was already logged in, and he is in landing page, redirect him to dashboard.
       if (user && currentPath == "/") {
         window.location.href = "/dashboard";
-        return;
       }
+      authStore.user = user;
+      const docRef = doc(db, "users", user.uid);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        dataStore = docSnap.data();
+        console.log("Document data:", docSnap.data());
+      } else {
+        // docSnap.data() will be undefined in this case
+        await setDoc(doc(db, "users", user.uid), {
+          name: "",
+          height: 0,
+          weight: 0,
+          dob: "",
+          gender: "",
+          phno: 0,
+          city: "",
+          state: "",
+          past_disease: "",
+          is_doctor: false,
+          doctor_roles: [],
+          allergies: "",
+          registered_on: serverTimestamp(),
+          profile_last_updated: serverTimestamp(),
+        });
+      }
+
       // Implement code for getting user details and store it in `dataStore.basicinfo`
     });
   });
@@ -29,16 +55,16 @@
 </div>
 
 <style>
-    #output{
-        background-color: rgb(255, 255, 255);
-        color:white;
-        width:100vw;
-        min-height:100vh;
-        min-width:300px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        font-family: Nunito;
-    }
+  #output {
+    background-color: rgb(255, 255, 255);
+    color: white;
+    width: 100vw;
+    min-height: 100vh;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: Nunito;
+  }
 </style>
