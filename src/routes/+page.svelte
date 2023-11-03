@@ -13,7 +13,6 @@
             <button type="button">BOOK AN APPOINTMENT</button>
         </div>
     </div>
-  </div>
 </div>
 <div class="pg2">
   <h1>How do we do it?</h1>
