@@ -2,6 +2,7 @@
     import OpenAI from "openai";
     import { page } from "$app/stores";
     import { auth, db } from "../../../lib/firebase/firebase";
+    import Dashboard from "../../../components/Dashboard.svelte";
     import { goto } from "$app/navigation";
     import {
         getFirestore,
@@ -312,25 +313,7 @@
     }
 </script>
 
-<div
-    id="dashboard"
-    style="display:flex;flex-direction:row;width:99vw;border-radius:10px;border:transparent solid 2px;height:99vh;overflow:hidden;"
->
-    <div
-        id="dashboard_sidebar"
-        style="display: flex;flex-direction:column;width:100px;border:transparent solid 2px;align-items:center;justify-content:space-evenly;background-color:#009688;border-right:2px solid white;"
-    >
-        <span on:click={function () {goto("/r/dashboard");}} class="dash_side_ico"><img style="width:50px;height:50px;" src="/favicon.png" /></span>
-        <div style = "display:flex;flex-direction:column;align-items:center;font-size:12px;" on:click={function () {goto("/r/chat");}}><span class="dash_side_ico material-symbols-outlined">chat</span>Chat</div>
-        <div style = "display:flex;flex-direction:column;align-items:center;font-size:12px;" on:click={function () {goto("/r/reports");}}><span class="dash_side_ico material-symbols-outlined">summarize</span>Reports</div>
-        <div style = "display:flex;flex-direction:column;align-items:center;font-size:12px;" on:click={function () {goto("/r/appointments");}}><span class="dash_side_ico material-symbols-outlined">calendar_month</span>Appointments</div>
-        <div style = "display:flex;flex-direction:column;align-items:center;font-size:12px;" on:click={function () {goto("/r/settings");}}><span class="dash_side_ico material-symbols-outlined">settings</span>Settings</div>
-        <div style = "display:flex;flex-direction:column;align-items:center;font-size:12px;" on:click={function () {goto("/r/support");}}><span class="dash_side_ico material-symbols-outlined">support</span>Support</div>
-    </div>
-    <div
-        id="div_main"
-        style="display: flex;flex-direction:column;flex-wrap:wrap;background-color:white;width:100%;background-color:rgb(120, 230, 206);"
-    >
+<Dashboard>
         <div
             id="div_chat_window"
             style="width:100%;;display:flex;flex-direction:column;height:100%;"
@@ -340,7 +323,7 @@
                 <button
                     type="submit"
                     class="msger-send-btn"
-                    on:click={us_M}
+                    on:click={function(){goto("/r/reports~"+reportID)}}
                     disabled={chatInfo.chat_ended}>Patient Report</button
                 >
             </div>
@@ -483,8 +466,7 @@
                 >
             </div>
         </div>
-    </div>
-</div>
+</Dashboard>
 
 <!-- chatgpt - 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 -->
 <style>
@@ -523,7 +505,6 @@
         justify-content: space-between;
         padding: 10px;
         border-bottom: var(--border);
-        background: #009688;
         color: #666;
         height: 60px;
     }
