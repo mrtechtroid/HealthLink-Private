@@ -343,5 +343,4 @@
       height: 90%;
       border-radius: 25px;
     }
-
 </style>
