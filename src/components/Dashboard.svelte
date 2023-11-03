@@ -1,3 +1,9 @@
+<script>
+    import { page } from "$app/stores";
+    import { db } from "../../../lib/firebase/firebase";
+    import { authStore,dataStore } from "../store/store";
+    import { goto } from "$app/navigation";
+</script>
 <div class="container">
     <div class="left_sidebar">
         <div class="menu_items">
@@ -41,31 +47,29 @@
                 />
             </div>
             <div class="name_and_class">
-                <p>James Bond</p>
-                <span>User</span>
+                <p>{dataStore.basicinfo.name}</p>
+                <span>{#if dataStore.basicinfo.is_doctor}Doctor{:else}User{/if}</span>
             </div>
             <div class="other_info">
                 <div class="about">
                     <h4>Past/Current Illnesses</h4>
                     <p>
-                        AIDS
+                        {#each dataStore.basicinfo.past_disease as item}
+                            {item},
+                        {/each}
                     </p>
-                </div>
-                <div class="age">
-                    <h4>Age</h4>
-                    <p>18</p>
                 </div>
                 <div class="gender">
                     <h4>Gender</h4>
-                    <p>Female</p>
+                    <p>{dataStore.basicinfo.gender}</p>
                 </div>
                 <div class="dob">
                     <h4>DOB</h4>
-                    <p>12/11/2006</p>
+                    <p>{dataStore.basicinfo.dob}</p>
                 </div>
                 <div class="address">
                     <h4>Address</h4>
-                    <p>USA</p>
+                    <p>{dataStore.basicinfo.place}</p>
                 </div>
             </div>
         </div>
@@ -248,7 +252,3 @@
         }
     }
 </style>
-
-<script>
-    export let chosen = ""
-</script>
