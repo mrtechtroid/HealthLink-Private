@@ -60,10 +60,16 @@
     unsubscribe();
   });
   async function handleAuthenticate() {
-    if (!email || !password) {
-      error = true;
+    if (!email || !password || !confirmpassword) {
+      alert("One of the fields is empty. Please fill in all the fields.");
       return;
     }
+
+    if (password!=confirmpassword){
+      alert("Confirm Password should be the same as password.");
+      return;
+    }
+    
     await authHandlers.signup(email, password);
     console.log("12345");
     goto("/dashboard");
@@ -79,7 +85,6 @@
       type="email"
       id="email"
       placeholder="Email"
-      required
     />
   </label>
   <br>
@@ -89,7 +94,6 @@
       type="password"
       id="password"
       placeholder="Password"
-      required
     />
   </label>
   <br>
@@ -99,7 +103,6 @@
       type="password"
       id="confirmpassword"
       placeholder="Confirm Password"
-      required
     />
   </label>
   <br><br>
