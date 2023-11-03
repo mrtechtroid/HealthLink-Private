@@ -1,4 +1,7 @@
 import {writable} from "svelte/store"
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, 
+signOut } from "firebase/auth"; 
+import{auth} from "../lib/firebase/firebase";
 
 export const authStore = writable({
     user:null,
@@ -10,14 +13,17 @@ export let dataStore = writable({
     reportlist:[],
     conversationlist:[],
 })
-export const authHandler = {
-    signup: async function(email,password,re_password){
-        // Sign Up function
+
+export const authHandlers = {
+    signup: async (email, pass) => {
+    await createUserWithEmailAndPassword (auth, email, pass)
     },
-    signin: async function(email,password){
-        // Sign In function
+    login: async (email, pass) => {
+    await signInWithEmailAndPassword(auth, email, pass)
     },
-    logout: async function(){
-        // Log Out Function
+    logout: async() => {
+    await signOut (auth)
     }
 }
+
+    
