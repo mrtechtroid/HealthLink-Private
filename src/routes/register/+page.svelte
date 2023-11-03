@@ -2,6 +2,7 @@
 <script>
   import { auth } from "../../lib/firebase/firebase";
   import { goto } from "$app/navigation";
+  import { db } from "../../lib/firebase/firebase";
   import {
     getAuth,
     onAuthStateChanged,
@@ -59,9 +60,14 @@
     // Unsubscribe from the auth state changes when the component is destroyed
     unsubscribe();
   });
+
   async function handleAuthenticate() {
     if (!email || !password || !confirmpassword) {
-      alert("One of the fields is empty. Please fill in all the fields.");
+      alert("Please fill all the fields");
+      return;
+    }
+    if (confirmpassword != password) {
+      alert("Confirm password is not the same as password");
       return;
     }
 
@@ -72,7 +78,8 @@
     
     await authHandlers.signup(email, password);
     console.log("12345");
-    goto("/dashboard");
+
+    goto("/onboarding");
   }
 </script>
 
@@ -80,12 +87,7 @@
   <h1>Sign Up</h1>
   <br>
   <label>
-    <input
-      bind:value={email}
-      type="email"
-      id="email"
-      placeholder="Email"
-    />
+    <input bind:value={email} type="email" id="email" placeholder="Email" />
   </label>
   <br>
   <label>

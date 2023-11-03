@@ -1,7 +1,7 @@
-
 <script>
+    import Dashboard from "../../components/Dashboard.svelte";
     import { page } from "$app/stores";
-    import { goto } from '$app/navigation';
+    import { goto } from "$app/navigation";
     import { auth, db } from "../../lib/firebase/firebase";
     import {
         getFirestore,
@@ -23,123 +23,65 @@
         query,
         where,
     } from "firebase/firestore";
-    import {dataStore,authStore} from "../../store/store"
+    import { dataStore, authStore } from "../../store/store";
     import { onDestroy } from "svelte";
 
     let dataLocal;
     let authLocal;
 
-	const unsubscribe = dataStore.subscribe((value) => {
-		dataLocal = value;
-	});
-    const unsubscribe1 = authStore.subscribe((value) => {
-		authLocal = value;
-	});
-    async function createChatbotChat(){
+    async function createChatbotChat() {
         const docRef = await addDoc(collection(db, "chat"), {
-            chat_ended:false,
-            date_started:serverTimestamp(),
-            date_ended:serverTimestamp(),
-            db_messages:[{"role":"system","content":"You are a medical illness diagnosing chatbot. Greet the user, ask various concise non-sympathetic questions such as patient's symptoms, duration of symptoms, etc and identify the illness they are having and type of doctor they have to consult.After identification, reroute the user to correct doctor."}],
-            doctor_id:"CHATBOT",
-            is_chatbot:true,
-            patient_id:"RANDOMID",
-            doctor_chosen:false,
-            doctor_chosen_id: ""
+            chat_ended: false,
+            date_started: serverTimestamp(),
+            date_ended: serverTimestamp(),
+            db_messages: [
+                {
+                    role: "system",
+                    content:
+                        "You are a medical illness diagnosing chatbot. Ask various concise non-sympathetic questions such as patient's symptoms, duration of symptoms, any past medical conditions, etc. Ask follow up questions to narrow down the possible illness. Identify the illness they are having and type of doctor they have to consult. Ask follow up questions .  After identification, reroute the user to correct doctor. The patient has diabetes.",
+                },
+            ],
+            doctor_id: "CHATBOT",
+            is_chatbot: true,
+            patient_id: "RANDOMID",
+            doctor_chosen: false,
+            doctor_chosen_id: "",
         });
-        goto("/r/chat~"+docRef.id)
+        goto("/r/chat~" + docRef.id);
     }
-    onDestroy(function(){
-        unsubscribe()
-        unsubscribe1()
-    })
 </script>
-<!-- Three things will be present in this - Initial Welcome Screen 
-List of Conversations
-List of Past Reports
--->
-<div
-    id="dashboard"
-    style="display:flex;flex-direction:row;width:99vw;border-radius:10px;border:transparent solid 2px;height:99vh;overflow:hidden;"
->
+
+<Dashboard>
     <div
-        id="dashboard_sidebar"
-        style="display: flex;flex-direction:column;width:100px;border:transparent solid 2px;align-items:center;justify-content:space-evenly;background-color:#009688;border-right:2px solid white;"
+        style="height:20%;display:flex;flex-direction:column;justify-content:center;"
     >
-        <span
-            on:click={function () {
-                goto("/r/dashboard");
-            }}
-            class="dash_side_ico"
-            ><img style="width:50px;height:50px;" src="/favicon.png" /></span
-        >
-        <div
-            style="display:flex;flex-direction:column;align-items:center;font-size:12px;"
-            on:click={function () {
-                goto("/r/chat");
-            }}
-        >
-            <span class="dash_side_ico material-symbols-outlined">chat</span
-            >Chat
-        </div>
-        <div
-            style="display:flex;flex-direction:column;align-items:center;font-size:12px;"
-            on:click={function () {
-                goto("/r/reports");
-            }}
-        >
-            <span class="dash_side_ico material-symbols-outlined"
-                >summarize</span
-            >Reports
-        </div>
-        <div
-            style="display:flex;flex-direction:column;align-items:center;font-size:12px;"
-            on:click={function () {
-                goto("/r/appointments");
-            }}
-        >
-            <span class="dash_side_ico material-symbols-outlined"
-                >calendar_month</span
-            >Appointments
-        </div>
-        <div
-            style="display:flex;flex-direction:column;align-items:center;font-size:12px;"
-            on:click={function () {
-                goto("/r/settings");
-            }}
-        >
-            <span class="dash_side_ico material-symbols-outlined">settings</span
-            >Settings
-        </div>
-        <div
-            style="display:flex;flex-direction:column;align-items:center;font-size:12px;"
-            on:click={function () {
-                goto("/r/support");
-            }}
-        >
-            <span class="dash_side_ico material-symbols-outlined">support</span
-            >Support
-        </div>
+        <span>Welcome Back,</span>
+        <span style="font-size:25px;font-weight:bold;">Andrew Smith</span>
     </div>
-    <div
-        id="div_main"
-        style="display: flex;flex-direction:column;flex-wrap:wrap;background-color:white;width:100%;background-color:rgb(120, 230, 206);"
-    >
-    <div id = "div_main_head" style = "height:20vh;background-color:#009688;padding:10px;display:flex;align-items:center;">
-        <span style="font-size: 40px;">Hi Arun</span>
+    <div style="display: flex;flex-direction:row;flex-wrap:wrap;">
+        <div class = "click_btn" style="background-color: #1ebfc4;" on:click={createChatbotChat}><i class='bx bx-plus-medical'></i><span>Chat with MediBot</span></div>
     </div>
-    <div>
-        
-    </div>
-    </div>
-</div>
+</Dashboard>
 
 <style>
-    .dash_side_ico {
-        font-size: 40px;
-        cursor: pointer;
+    .click_btn {
+        width: 200px;
+        height: 150px;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
+        border-radius: 10px;
+        cursor:pointer;
+        margin:10px;
     }
-    .dash_side_ico:hover {
-        color: rgb(230, 215, 10);
+    .click_btn span {
+        font-size:20px;
+    }
+    .click_btn i{
+        font-size:50px;
+    }
+    .click_btn:hover{
+        filter:grayscale(0.5)
     }
 </style>

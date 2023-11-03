@@ -1,0 +1,261 @@
+<script>
+    import { page } from "$app/stores";
+    import { db } from "../lib/firebase/firebase"
+    import { authStore,dataStore } from "../store/store";
+    import { goto } from "$app/navigation";
+    let dataLocal = null
+    const unsubscribe = dataStore.subscribe((value) => {
+        dataLocal = value.basicinfo
+    });
+</script>
+<div class="container">
+    <div class="left_sidebar">
+        <div class="menu_items">
+            <div class="menu_item"><div class = "logo"/></div>
+            <div class="menu_item" on:click={function(){goto("/dashboard")}}>
+                <i class="bx bxs-dashboard" />
+                <p>Dashboard</p>
+            </div>
+            <div class="menu_item" on:click={function(){goto("/chat")}}>
+                <i class="bx bx-message-rounded-dots" />
+                <p>Conversations</p>
+                <i class="fa-regular fa-circle-2" />
+            </div>
+            <div class="menu_item" on:click={function(){goto("/reports")}}>
+                <i class="bx bx-calendar" />
+                <p>Reports</p>
+            </div>
+            <div class="menu_item" on:click={function(){goto("/appointments")}}>
+                <i class="bx bx-file-blank" />
+                <p>Appointments</p>
+            </div>
+            <div class="menu_item" on:click={function(){goto("/profile")}}>
+                <i class="bx bx-user-circle" />
+                <p>Profile</p>
+            </div>
+            <div class="menu_item" on:click={function(){goto("/settings")}}>
+                <i class="bx bx-cog" />
+                <p>Settings</p>
+            </div>
+        </div>
+    </div>
+    <div class="main_content">
+        <slot/>
+    </div>
+    <div class="right_sidebar">
+        <div class="profile">
+            <div class="img">
+                <img
+                    src="https://i.postimg.cc/g2M32zcz/image.png "
+                    alt="studentImg "
+                />
+            </div>
+            <div class="name_and_class">
+                <p>{dataLocal.name}</p>
+                <span>{#if dataLocal.is_doctor}Doctor{:else}User{/if}</span>
+            </div>
+            <div class="other_info">
+                <div class="about">
+                    <h4>Past/Current Illnesses</h4>
+                    <p>
+                        {#if dataLocal.past_disease != undefined}
+                        {#each dataLocal.past_disease as item}
+                            {item},
+                        {/each}
+                        {/if}
+                    </p>
+                </div>
+                <div class="gender">
+                    <h4>Gender</h4>
+                    <p>{dataLocal.gender}</p>
+                </div>
+                <div class="dob">
+                    <h4>DOB</h4>
+                    <p>{dataLocal.dob}</p>
+                </div>
+                <div class="address">
+                    <h4>Address</h4>
+                    <p>{dataLocal.place}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Nunito", sans-serif;
+        color: black;
+    }
+
+    :root {
+        --grey-color: #b1adad;
+        --border-color: #e7e8ea;
+    }
+
+    .container {
+        display: flex;
+        height: 99vh;
+        letter-spacing: 1px;
+        width:100vw;
+    }
+
+    /*----- Left SideBar -----*/
+
+    .left_sidebar {
+        width: 20vw;
+        position: sticky;
+        top: 0px;
+        align-self: flex-start;
+        transition: all 0.3s ease-in-out;
+        height:100%;
+        border-right:#000 2px solid;
+    }
+
+    .left_sidebar .close_hamburger_btn {
+        position: absolute;
+        top: 30px;
+        left: 30px;
+        font-size: 34px;
+        cursor: pointer;
+        color: #000;
+        display: none;
+    }
+
+    .logo {
+        min-width:50px;
+        min-height:50px;
+        width:3vw;
+        height:3vw;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-image: url("/favicon.png");
+    }
+    .left_sidebar .menu_items .menu_item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 17px;
+        color: var(--grey-color);
+        padding: 20px 30px;
+        cursor: pointer;
+    }
+
+    /*----- Main Content -----*/
+
+    .main_content {
+        width: 60vw;
+        display: flex;
+        flex-direction: column;
+        padding: 0 20px;
+        transition: all 0.3s ease-in-out;
+        overflow-y: scroll;
+    }
+
+    /*----- Right SideBar -----*/
+
+    .right_sidebar {
+        width:20vw;
+        position: sticky;
+        top: 0px;
+        align-self: flex-start;
+        transition: all 0.3s ease-in-out;
+        margin:5px;
+        padding-left: 5px;
+        height:100%;
+        min-width:200px;
+        border-left:#000 2px solid;
+    }
+
+    .profile {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-top: 30px;
+        margin-bottom: 30px;
+        gap: 15px;
+    }
+
+    .profile img {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+        background-position: center;
+    }
+
+    .profile .name_and_class {
+        text-align: center;
+    }
+
+    .profile .name_and_class P {
+        font-weight: 600;
+    }
+
+    .profile .name_and_class span {
+        font-size: 14px;
+        color: var(--grey-color);
+    }
+
+    .profile .about h4,
+    .profile .other_info h4 {
+        font-weight: 600;
+        font-size: 14px;
+    }
+
+    .profile .about p,
+    .profile .other_info p {
+        font-size: 12px;
+        margin-top: 10px;
+        color: var(--grey-color);
+    }
+
+    .profile .other_info {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 30px;
+    }
+
+    .profile .student_from_same_class img {
+        width: 30px;
+        height: 30px;
+        object-fit: cover;
+        background-position: center;
+        margin-left: -8px;
+    }
+
+    .profile .student_from_same_class img:nth-child(1) {
+        margin-left: 0 !important;
+    }
+    .menu_item:hover{
+        background-color: #5bb9c0;
+    }
+    .profile .student_from_same_class h4 {
+        font-weight: 600;
+        font-size: 14px;
+        margin: 10px 0;
+    }
+    .profile .student_same_class_img span {
+        color: #5bb9c0;
+        font-size: 14px;
+        margin-left: 12px;
+    }
+    @media screen and (max-width:500px){
+        .menu_item p{
+            display:none;
+        }
+        .logo{
+            background-image: url("favicon.png");
+        }
+        .right_sidebar {
+            display:none;
+        }
+        .main_content{
+            width:80vw;
+        }
+    }
+</style>

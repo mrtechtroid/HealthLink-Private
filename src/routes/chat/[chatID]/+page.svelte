@@ -2,6 +2,7 @@
     import OpenAI from "openai";
     import { page } from "$app/stores";
     import { auth, db } from "../../../lib/firebase/firebase";
+    import Dashboard from "../../../components/Dashboard.svelte";
     import { goto } from "$app/navigation";
     import {
         getFirestore,
@@ -151,15 +152,15 @@
     }
     function check_chatBot(db_messages) {
         let count_mild_severe = 0;
+        let count_predicted_illness = 0;
         for (var i = db_messages.length - 1; i >= 0; i--) {
             if (
                 db_messages[i].role == "assistant" &&
                 db_messages[i].predicted_illness != ""
             ) {
-                askHealthCareProf();
-                return false;
+                count_predicted_illness+=1
             }
-            if (count_mild_severe > 1) {
+            if (count_mild_severe >= 2 || count_predicted_illness>=2) {
                 askHealthCareProf();
                 return false;
             }
@@ -292,7 +293,7 @@
                 },
             ],
             function_call: { name: "e" },
-            temperature: 0.3,
+            temperature: 0.2,
             max_tokens: 256,
             top_p: 1,
             frequency_penalty: 0,
@@ -312,25 +313,7 @@
     }
 </script>
 
-<div
-    id="dashboard"
-    style="display:flex;flex-direction:row;width:99vw;border-radius:10px;border:transparent solid 2px;height:99vh;overflow:hidden;"
->
-    <div
-        id="dashboard_sidebar"
-        style="display: flex;flex-direction:column;width:100px;border:transparent solid 2px;align-items:center;justify-content:space-evenly;background-color:#009688;border-right:2px solid white;"
-    >
-        <span on:click={function () {goto("/r/dashboard");}} class="dash_side_ico"><img style="width:50px;height:50px;" src="/favicon.png" /></span>
-        <div style = "display:flex;flex-direction:column;align-items:center;font-size:12px;" on:click={function () {goto("/r/chat");}}><span class="dash_side_ico material-symbols-outlined">chat</span>Chat</div>
-        <div style = "display:flex;flex-direction:column;align-items:center;font-size:12px;" on:click={function () {goto("/r/reports");}}><span class="dash_side_ico material-symbols-outlined">summarize</span>Reports</div>
-        <div style = "display:flex;flex-direction:column;align-items:center;font-size:12px;" on:click={function () {goto("/r/appointments");}}><span class="dash_side_ico material-symbols-outlined">calendar_month</span>Appointments</div>
-        <div style = "display:flex;flex-direction:column;align-items:center;font-size:12px;" on:click={function () {goto("/r/settings");}}><span class="dash_side_ico material-symbols-outlined">settings</span>Settings</div>
-        <div style = "display:flex;flex-direction:column;align-items:center;font-size:12px;" on:click={function () {goto("/r/support");}}><span class="dash_side_ico material-symbols-outlined">support</span>Support</div>
-    </div>
-    <div
-        id="div_main"
-        style="display: flex;flex-direction:column;flex-wrap:wrap;background-color:white;width:100%;background-color:rgb(120, 230, 206);"
-    >
+<Dashboard>
         <div
             id="div_chat_window"
             style="width:100%;;display:flex;flex-direction:column;height:100%;"
@@ -340,8 +323,8 @@
                 <button
                     type="submit"
                     class="msger-send-btn"
-                    on:click={us_M}
-                    disabled={chatInfo.chat_ended}>Patient Report</button
+                    on:click={function(){goto("/r/reports~"+chatInfo.report)}}
+                    disabled={!chatInfo.chat_ended}>Patient Report</button
                 >
             </div>
             <main class="msger-chat" id = "msger-chat" bind:this={msgrchat}>
@@ -420,9 +403,9 @@
                 {#if chatInfo.chat_ended}
                     <div style="color:black">This Conversation has Ended.</div>
                 {/if}
-                    {#if doctorList != []}
-                    <span style="color:black">Choose a Specialist to Talk From:</span>
+                    {#if doctorList.length != 0}
                         {#if !chatInfo.doctor_chosen}
+                            <span style="color:black">Choose a Specialist to Talk From:</span>
                             <div style="display: flex;flex-direction:row;color:black;width:100%;overflow-x:scroll;">
                             {#each doctorList as item, index}
                                 <div
@@ -451,7 +434,6 @@
                                 }}>Chat with Doctor</button
                             >
                         {/if}
-                    
                     {/if}
                 
             </main>
@@ -483,8 +465,7 @@
                 >
             </div>
         </div>
-    </div>
-</div>
+</Dashboard>
 
 <!-- chatgpt - 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 -->
 <style>
@@ -523,7 +504,6 @@
         justify-content: space-between;
         padding: 10px;
         border-bottom: var(--border);
-        background: #009688;
         color: #666;
         height: 60px;
     }

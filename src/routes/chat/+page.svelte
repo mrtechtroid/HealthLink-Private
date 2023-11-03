@@ -1,85 +1,80 @@
 <script>
     import { goto } from "$app/navigation";
+    import Dashboard from "../../components/Dashboard.svelte";
+    import { db } from "../../lib/firebase/firebase";
+    import { authStore,dataStore } from "../../store/store";
+
+    import {
+        getFirestore,
+        orderBy,
+        limit,
+        writeBatch,
+        collection,
+        addDoc,
+        onSnapshot,
+        deleteDoc,
+        arrayUnion,
+        arrayRemove,
+        setDoc,
+        updateDoc,
+        getDocs,
+        doc,
+        serverTimestamp,
+        getDoc,
+        query,
+        where,
+    } from "firebase/firestore";
+    let userID;
+    let conversationList = [];
+	const unsubscribe = authStore.subscribe((value) => {
+        if (value.user!=undefined){
+		userID = value.user.uid}else{
+            userID = "RANDOMID"
+        }
+        userID = "RANDOMID"
+	});
+    const unsubscribe2 = dataStore.subscribe((value) => {
+		conversationList = value.conversationlist
+	});
+    async function getChatList() {
+        const q = query(
+            collection(db, "chat"),
+            where("patient_id", "==", userID),orderBy("date_started", "desc"),limit(10)
+        );
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+            let b = doc.data();
+            conversationList.push({is_chatbot:b.is_chatbot,date_started:b.date_started.seconds*1000,date_ended:b.ended.seconds*1000,doctor_id:b.doctor_id,})
+            console.log(b)
+        });
+    }
+    if (conversationList.length == 0){
+        getChatList()
+    }
 </script>
-<div
-    id="dashboard"
-    style="display:flex;flex-direction:row;width:99vw;border-radius:10px;border:transparent solid 2px;height:99vh;overflow:hidden;"
->
-    <div
-        id="dashboard_sidebar"
-        style="display: flex;flex-direction:column;width:100px;border:transparent solid 2px;align-items:center;justify-content:space-evenly;background-color:#009688;border-right:2px solid white;"
-    >
-        <span
-            on:click={function () {
-                goto("/r/dashboard");
-            }}
-            class="dash_side_ico"
-            ><img style="width:50px;height:50px;" src="/favicon.png" /></span
-        >
-        <div
-            style="display:flex;flex-direction:column;align-items:center;font-size:12px;"
-            on:click={function () {
-                goto("/r/chat");
-            }}
-        >
-            <span class="dash_side_ico material-symbols-outlined">chat</span
-            >Chat
-        </div>
-        <div
-            style="display:flex;flex-direction:column;align-items:center;font-size:12px;"
-            on:click={function () {
-                goto("/r/reports");
-            }}
-        >
-            <span class="dash_side_ico material-symbols-outlined"
-                >summarize</span
-            >Reports
-        </div>
-        <div
-            style="display:flex;flex-direction:column;align-items:center;font-size:12px;"
-            on:click={function () {
-                goto("/r/appointments");
-            }}
-        >
-            <span class="dash_side_ico material-symbols-outlined"
-                >calendar_month</span
-            >Appointments
-        </div>
-        <div
-            style="display:flex;flex-direction:column;align-items:center;font-size:12px;"
-            on:click={function () {
-                goto("/r/settings");
-            }}
-        >
-            <span class="dash_side_ico material-symbols-outlined">settings</span
-            >Settings
-        </div>
-        <div
-            style="display:flex;flex-direction:column;align-items:center;font-size:12px;"
-            on:click={function () {
-                goto("/r/support");
-            }}
-        >
-            <span class="dash_side_ico material-symbols-outlined">support</span
-            >Support
-        </div>
-    </div>
-    <div
-        id="div_main"
-        style="display: flex;flex-direction:column;flex-wrap:wrap;background-color:white;width:100%;background-color:rgb(120, 230, 206);"
-    >
-    <div id = "div_main_head" style = "height:60px;background-color:#009688;padding:10px;display:flex;align-items:center;flex-direction:column">
-        <span style="font-size: 40px;">Conversations</span>
-    </div>
-    </div>
-</div>
+
+<Dashboard>
+    <h1>Conversations</h1>
+</Dashboard>
 
 <style>
-    .dash_side_ico {
-        font-size: 40px;
+    .click_btn {
+        height: 150px;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
+        border-radius: 10px;
         cursor: pointer;
+        margin: 10px;
     }
-    .dash_side_ico:hover {
-        color: rgb(230, 215, 10);
+    .click_btn span {
+        font-size: 20px;
+    }
+    .click_btn i {
+        font-size: 50px;
+    }
+    .click_btn:hover {
+        filter: grayscale(0.5);
     }
 </style>
