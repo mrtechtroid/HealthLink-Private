@@ -1,39 +1,4 @@
 <script>
-  import Auth from "../../components/Auth.svelte";
-  import {
-    getAuth,
-    onAuthStateChanged,
-    setPersistence,
-    browserLocalPersistence,
-    GoogleAuthProvider,
-    signInWithPopup,
-    signOut,
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-    sendPasswordResetEmail,
-    updateEmail,
-    updatePassword,
-  } from "firebase/auth";
-  import {
-    getFirestore,
-    orderBy,
-    limit,
-    writeBatch,
-    collection,
-    addDoc,
-    onSnapshot,
-    deleteDoc,
-    arrayUnion,
-    arrayRemove,
-    setDoc,
-    updateDoc,
-    getDocs,
-    doc,
-    serverTimestamp,
-    getDoc,
-    query,
-    where,
-  } from "firebase/firestore";
   import { authHandlers } from "../../store/store";
   let email = "";
   let password = "";
@@ -42,14 +7,23 @@
     if (!email || !password) {
       error = true;
       return;
+    }else if (password.length <= 8){
+      alert("Password should be at least 8 characters long")
+      return;
     }
-    await authHandlers.login(email, password);
-    console.log("12345");
+    if (email.match(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)){
+      try{
+      await authHandlers.login(email, password);
+    }catch(e){
+      alert("Something went wrong!"+e)
+    }
+    }else{
+      alert("Incorrect Email")
+    }
   }
 </script>
 
 <div class="authContainer">
-  <form>
     <h1>Login</h1>
     <br>
     {#if error}
@@ -68,12 +42,11 @@
       />
     </label>
     <br><br>
-  </form>
 
   <button  class="button"
     type="button"
     on:click={handleAuthenticate}
-    onclick="window.location.href='../../dashboard';">Submit</button
+    >Submit</button
   >
   <br><br>
   <p>
@@ -82,7 +55,6 @@
   </p>
 </div>
 
-<Auth />
 
 <style>
   .authContainer {
@@ -95,11 +67,18 @@
 
   .button{
     background-color:rgb(120, 230, 206) ;
-    width:25%;
+    width:10%;
+    min-width:120px;
     color: white;
     text-align: center;
     font-size: 30px;
     border-radius:12px;
+    border: none;
+    cursor: pointer;
+  }
+  .button:hover{
+    filter:grayscale(0.5),
+    
   }
 
    label {
