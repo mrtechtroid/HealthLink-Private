@@ -26,9 +26,22 @@
     import { dataStore, authStore } from "../../store/store";
     import { onDestroy } from "svelte";
 
-    let dataLocal;
-    let authLocal;
-
+    let authStoreVariable,dataStoreVariable
+  const unsubscribe2 = authStore.subscribe((value) => {
+        if (value.user!={email:"test@test.cc",uid:"RANDOMID"}){
+          authStoreVariable = value.user
+        }else{
+          authStoreVariable = {email:"test@test.cc",uid:"RANDOMID"}
+        }
+	});
+  const unsubscribe3 = dataStore.subscribe((value) => {
+    console.log(dataStoreVariable,value)
+        if (value.basicinfo!={}){
+          dataStoreVariable = value.basicinfo
+        }else{
+          dataStoreVariable = {}
+        }
+	});
     async function createChatbotChat() {
         const docRef = await addDoc(collection(db, "chat"), {
             chat_ended: false,
@@ -56,7 +69,7 @@
         style="height:20%;display:flex;flex-direction:column;justify-content:center;"
     >
         <span>Welcome Back,</span>
-        <span style="font-size:25px;font-weight:bold;">Andrew Smith</span>
+        <span style="font-size:25px;font-weight:bold;">{dataStoreVariable.name}</span>
     </div>
     <div style="display: flex;flex-direction:row;flex-wrap:wrap;">
         <div class = "click_btn" style="background-color: #1ebfc4;" on:click={createChatbotChat}><i class='bx bx-plus-medical'></i><span>Chat with MediBot</span></div>

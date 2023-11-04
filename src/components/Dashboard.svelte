@@ -1,12 +1,13 @@
 <script>
     import { page } from "$app/stores";
     import { db } from "../lib/firebase/firebase"
-    import { authStore,dataStore } from "../store/store";
+    import { authStore,dataStore,authHandlers } from "../store/store";
     import { goto } from "$app/navigation";
     let dataLocal = null
     const unsubscribe = dataStore.subscribe((value) => {
         dataLocal = value.basicinfo
     });
+
 </script>
 <div class="container">
     <div class="left_sidebar">
@@ -36,6 +37,10 @@
             <div class="menu_item" on:click={function(){goto("/settings")}}>
                 <i class="bx bx-cog" />
                 <p>Settings</p>
+            </div>
+            <div class="menu_item" on:click={async function(){await authHandlers.logout()}}>
+                <i class="bx bx-log-out" />
+                <p>Log Out</p>
             </div>
         </div>
     </div>

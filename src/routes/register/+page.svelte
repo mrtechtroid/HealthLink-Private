@@ -70,15 +70,19 @@
       alert("Confirm password is not the same as password");
       return;
     }
-
-    if (password!=confirmpassword){
-      alert("Confirm Password should be the same as password.");
+    if (password.length <= 8){
+      alert("Password should be at least 8 characters long")
       return;
     }
-    
-    await authHandlers.signup(email, password);
-    console.log("12345");
-
+    if (email.match(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)){
+      try{
+        await authHandlers.signup(email, password);
+      }catch{
+        alert("Something Went Wrong")
+      }
+    }else{
+      alert("Please enter a valid email.")
+    }
     goto("/onboarding");
   }
 </script>
@@ -128,11 +132,18 @@
 
   .button{
     background-color:rgb(120, 230, 206) ;
-    width:25%;
+    width:10%;
+    min-width:120px;
     color: white;
     text-align: center;
     font-size: 30px;
     border-radius:12px;
+    border: none;
+    cursor: pointer;
+  }
+  .button:hover{
+    filter:grayscale(0.5),
+    
   }
 
    label {
