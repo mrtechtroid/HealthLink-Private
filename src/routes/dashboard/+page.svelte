@@ -35,7 +35,6 @@
         }
 	});
   const unsubscribe3 = dataStore.subscribe((value) => {
-    console.log(dataStoreVariable,value)
         if (value.basicinfo!={}){
           dataStoreVariable = value.basicinfo
         }else{
@@ -55,8 +54,10 @@
                 },
             ],
             doctor_id: "CHATBOT",
+            doctor_name: "CHATBOT",
+            patient_name: dataStoreVariable.name,
             is_chatbot: true,
-            patient_id: "RANDOMID",
+            patient_id: authStoreVariable.uid,
             doctor_chosen: false,
             doctor_chosen_id: "",
         });
@@ -64,17 +65,18 @@
     }
 </script>
 
-<Dashboard>
-    <div
-        style="height:20%;display:flex;flex-direction:column;justify-content:center;"
-    >
-        <span>Welcome Back,</span>
-        <span style="font-size:25px;font-weight:bold;">{dataStoreVariable.name}</span>
-    </div>
-    <div style="display: flex;flex-direction:row;flex-wrap:wrap;">
-        <div class = "click_btn" style="background-color: #1ebfc4;" on:click={createChatbotChat}><i class='bx bx-plus-medical'></i><span>Chat with MediBot</span></div>
-    </div>
-</Dashboard>
+    <Dashboard>
+        <div
+            style="height:20%;display:flex;flex-direction:column;justify-content:center;"
+        >
+            <span>Welcome Back,</span>
+            <span style="font-size:25px;font-weight:bold;">{dataStoreVariable.name}</span>
+        </div>
+        <div style="display: flex;flex-direction:row;flex-wrap:wrap;">
+            <div class = "click_btn" style="background-color: #1ebfc4;" on:click={createChatbotChat}><i class='bx bx-plus-medical'></i><span>Chat with MediBot</span></div>
+        </div>
+    </Dashboard>
+
 
 <style>
     .click_btn {
