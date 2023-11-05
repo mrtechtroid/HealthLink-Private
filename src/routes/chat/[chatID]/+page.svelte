@@ -401,8 +401,7 @@
                     on:click={function () {
                         goto("/r/reports~" + chatInfo.report);
                     }}
-                    disabled={(chatInfo.chat_ended && chatInfo.is_chatbot) ||
-                        (!chatInfo.chat_ended && !chatInfo.is_chatbot)}
+                    disabled={(chatInfo.chat_ended && chatInfo.is_chatbot) || !chatInfo.is_chatbot}
                     >Patient Report</button
                 >
             {/if}
