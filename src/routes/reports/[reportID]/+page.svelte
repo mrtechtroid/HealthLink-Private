@@ -37,13 +37,14 @@
 <Dashboard>
     <div class="InsideDashboard">
         <h1>Medical Report:-</h1>
+        
         <h2>Patient details:-</h2>
         <table class="Report_details">
-            <tr><th>Patient Name: </th> <td>{name}</td><td><img src="edit.png"></td></tr>
-            <tr><th>Patient age: </th> <td>{age}</td><td><img src="edit.png"></td></tr>
-            <tr><th>Patient gender: </th> <td>{gender}</td><td><img src="edit.png"></td></tr>
-            <tr><th>Past Illnesses: </th> <td>{past_disease}</td><td><img src="edit.png"></td></tr>
-            <tr><th>Known allergies: </th> <td>{allergies}</td><td><img src="edit.png"></td></tr>
+            <tr><th>Patient Name: </th> <td>{name}</td><td><img src="edit.png"/></td></tr>
+            <tr><th>Patient age: </th> <td>{age}</td><td><img src="edit.png"/></td></tr>
+            <tr><th>Patient gender: </th> <td>{gender}</td><td><img src="edit.png"/></td></tr>
+            <tr><th>Past Illnesses: </th> <td>{past_disease}</td><td><img src="edit.png"/></td></tr>
+            <tr><th>Known allergies: </th> <td>{allergies}</td><td><img src="edit.png"/></td></tr>
         </table>
         <h2>Conversation details:-</h2>
         <table>
@@ -52,6 +53,7 @@
             <tr><th>Severity: </th> <td>{severity}</td></tr>
             <tr><th>Predicted Illness: </th> <td>{predicted_illness}</td></tr>
         </table>
+        
     </div>
 
 </Dashboard>
@@ -86,8 +88,8 @@
         {
             transition: 0.2s;
         }
-        .imgimg
-        {width:10%}
+        /* .imgimg
+        {width:10%} */
         table tr:hover
         {
            transform: scale(1.02);
@@ -105,11 +107,12 @@
         .InsideDashboard h1
         {
             text-align: center;
+            width: 90%;
         }
-        .InsideDashboard
+        /* .InsideDashboard
         {
-            background-image: linear-gradient(rgba(141, 141, 141, 0.05rgba(121, 121, 121, 0.05)05));
-        }
+            background-color:rgba(120, 230, 206,0.1);
+        } */
         
         /* @media screen and (max-width:500px)
         {

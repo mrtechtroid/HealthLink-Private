@@ -55,17 +55,22 @@
 <Dashboard>
     <h1>Reports</h1>
     {#each reportList as elem}
-        <div style = "width:100%;border:2px solid black;border-radius:10px;height:fit-content;margin:10px;display:flex;flex-direction:row;align-items:center;cursor:pointer;" on:click = {function(){if (userData.is_doctor){goto("/r/edit_reports~"+elem.id)}else{ goto("/r/reports~"+elem.id)}}}>
+        <div class="myClass" style = "width:100%;border:2px solid black;border-radius:10px;height:fit-content;margin:10px;padding:7px;display:flex;flex-direction:row;align-items:center;cursor:pointer;" on:click = {function(){if (userData.is_doctor){goto("/r/edit_reports~"+elem.id)}else{ goto("/r/reports~"+elem.id)}}}>
             <div style = "display:flex;flex-direction:column">
-                <span style="font-size: medium;">Severity: {elem.severity}</span>
-                <span style="font-size: medium;">Symptoms {elem.symptoms}</span>
-                <span style="font-size: smaller;">Created: {(new Date(elem.created)).toLocaleString()}</span>
+                <!-- <span style="font-size: medium;">Severity: {elem.severity}</span>
+                <span style="font-size: medium;">Symptoms {elem.symptoms}</span> -->
+                <span style="font-size: medium;">Chat Date: {(new Date(elem.created)).toLocaleString()}</span>
+                
             </div>
         </div>
     {/each}
 </Dashboard>
 
 <style>
+    /* .myClass
+    {
+        padding: 7px;
+    } */
     .click_btn {
         height: 150px;
         color: white;
@@ -75,6 +80,7 @@
         border-radius: 10px;
         cursor: pointer;
         margin: 10px;
+        /* padding: 7px; */
     }
     .click_btn span {
         font-size: 20px;
