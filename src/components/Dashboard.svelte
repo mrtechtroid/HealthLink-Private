@@ -26,17 +26,13 @@
                 <i class="bx bx-calendar" />
                 <p>Reports</p>
             </div>
-            <div class="menu_item" on:click={function(){goto("/appointments")}}>
+            <!-- <div class="menu_item" on:click={function(){goto("/appointments")}}>
                 <i class="bx bx-file-blank" />
                 <p>Appointments</p>
-            </div>
+            </div> -->
             <div class="menu_item" on:click={function(){goto("/profile")}}>
                 <i class="bx bx-user-circle" />
                 <p>Profile</p>
-            </div>
-            <div class="menu_item" on:click={function(){goto("/settings")}}>
-                <i class="bx bx-cog" />
-                <p>Settings</p>
             </div>
             <div class="menu_item" on:click={async function(){await authHandlers.logout()}}>
                 <i class="bx bx-log-out" />

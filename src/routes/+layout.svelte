@@ -42,7 +42,6 @@
 	});
   let unsub
   onMount(function () {
-    console.log("Mounting");
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
       const currentPath = window.location.pathname;
       // If user is logged out OR User is not in a page which doesnt require authentication. Redirect him
@@ -54,12 +53,12 @@
       if (user && (currentPath == "/" || currentPath == "/login" || currentPath == "/register")) {
         window.location.href = "/dashboard";
       }
-      authStoreVariable = user
+      authStore.update(function (state){return {...state,user:user}})
       const docRef = doc(db, "users", user.uid);
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         unsub = onSnapshot(doc(db, "users", authStoreVariable.uid), (doc) => {
-            dataStoreVariable.basicinfo = doc.data();
+          dataStore.update(function (state){return {...state,basicinfo:doc.data()}})
         });
       } else {
         // docSnap.data() will be undefined in this case
