@@ -1,6 +1,8 @@
-import Dashboard from "../../../components/Dashboard.svelte";
-<dashboard>
+
 <script>
+import Dashboard from "../../../components/Dashboard.svelte";
+
+
     import { getFirestore, doc, getDoc } from "firebase/firestore"; 
     const db=getFirestore();
     let name,age,gender,past_disease,allergies,symptoms,history,summary,severity,predicted_illness,other_illness;
@@ -26,11 +28,11 @@ import Dashboard from "../../../components/Dashboard.svelte";
     }
     // console.log(docSnap.data())
     
-
+    getData()
 
 </script>
-getData()
 
+<Dashboard>
 <div class="InsideDashboard">
     <table class="report_details">
         <tr><th>Patient Name: </th> <td>{name}</td></tr>
@@ -46,4 +48,4 @@ getData()
         <tr><th>Predicted Illness: </th> <td>{predicted_illness}</td></tr>
     </table>
 </div>
-</dashboard>
+</Dashboard>
