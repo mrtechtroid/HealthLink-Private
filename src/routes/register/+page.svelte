@@ -47,11 +47,9 @@
   let user = null;
   const unsubscribe = auth.onAuthStateChanged((currentUser) => {
     if (currentUser) {
-      // User is signed in
       user = currentUser;
       console.log(user);
     } else {
-      // No user is signed in
       user = null;
     }
   });
@@ -70,7 +68,7 @@
       alert("Confirm password is not the same as password");
       return;
     }
-    if (password.length <= 8){
+    if (password.length < 8){
       alert("Password should be at least 8 characters long")
       return;
     }
@@ -112,7 +110,7 @@
     />
   </label>
   <br><br>
-  <button class = "button" type="submit" on:click={handleAuthenticate}>Submit </button>
+  <button class = "button" type="submit" on:click={handleAuthenticate}>Register</button>
   <br>
   <p>
     Already have an account?

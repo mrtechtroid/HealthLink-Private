@@ -272,7 +272,7 @@
                 role: "assistant",
                 content: response.response_to_user,
                 symptoms: response.symptoms,
-                summary: response.summary,
+                summary: response.conversation_summary,
                 severity: response.severity,
                 doctor_type: response.doctor_type,
                 predicted_illness: response.predicted_illness,
@@ -310,7 +310,7 @@
                             predicted_illness: {
                                 type: "string",
                             },
-                            summary: {
+                            conversation_summary: {
                                 type: "string",
                             },
                             severity: {
@@ -330,7 +330,6 @@
                                     "Radiologist",
                                     "Oncologist",
                                     "Urologist",
-                                    "Anesthesiologist",
                                     "Orthopedic surgeon",
                                     "Pathologist",
                                     "Internal medicine",
@@ -359,11 +358,9 @@
                 },
             ],
             function_call: { name: "e" },
-            temperature: 0.2,
+            temperature: 0.5,
             max_tokens: 256,
-            top_p: 1,
-            frequency_penalty: 0,
-            presence_penalty: 0,
+            top_p: 0.5,
         });
         const responseMessage =
             response.choices[0].message.function_call.arguments;
@@ -671,6 +668,7 @@
         flex: 1;
         overflow-y: auto;
         padding: 10px;
+        background-color: transparent;
     }
     .msger-chat::-webkit-scrollbar {
         width: 6px;
@@ -763,9 +761,6 @@
         background: rgb(0, 180, 50);
     }
 
-    .msger-chat {
-        background-color: #fcfcfe;
-    }
     .dash_side_ico {
         font-size: 40px;
         cursor: pointer;

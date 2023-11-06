@@ -12,7 +12,7 @@
 <div class="container">
     <div class="left_sidebar">
         <div class="menu_items">
-            <div class="menu_item"><div class = "logo"/></div>
+            <div class="menu_item" id = "title_logo">HealthLink</div>
             <div class="menu_item" on:click={function(){goto("/dashboard")}}>
                 <i class="bx bxs-dashboard" />
                 <p>Dashboard</p>
@@ -91,17 +91,27 @@
         font-family: "Nunito", sans-serif;
         color: black;
     }
-
     :root {
         --grey-color: #b1adad;
         --border-color: #e7e8ea;
     }
-
+    #title_logo:hover{
+        background-color: transparent;
+    }
+    #title_logo{
+        font-size:26px;
+        color:black;
+    }
     .container {
         display: flex;
         height: 99vh;
         letter-spacing: 1px;
         width:100vw;
+        background-image: linear-gradient(
+                rgba(206, 252, 241, 0.9),
+                rgba(244, 222, 255, 0.9)
+            ),
+            url(bgvev1.png);
     }
 
     /*----- Left SideBar -----*/
@@ -114,6 +124,9 @@
         transition: all 0.3s ease-in-out;
         height:100%;
         border-right:#000 2px solid;
+        display:flex;
+        flex-direction: column;
+        align-items: center;
     }
 
     .left_sidebar .close_hamburger_btn {
@@ -129,9 +142,8 @@
     .logo {
         min-width:50px;
         min-height:50px;
-        width:3vw;
-        height:3vw;
-        background-size: cover;
+        background-size:contain;
+        background-position: center;
         background-repeat: no-repeat;
         background-image: url("/favicon.png");
     }
