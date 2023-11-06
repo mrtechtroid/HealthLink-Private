@@ -7,7 +7,7 @@
     if (!email || !password) {
       error = true;
       return;
-    }else if (password.length <= 8){
+    }else if (password.length < 8){
       alert("Password should be at least 8 characters long")
       return;
     }
@@ -46,7 +46,7 @@
   <button  class="button"
     type="button"
     on:click={handleAuthenticate}
-    >Submit</button
+    >Login</button
   >
   <br><br>
   <p>

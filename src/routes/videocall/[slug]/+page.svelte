@@ -8,5 +8,5 @@
 </script>
 
 <Dashboard>
-    <iframe style = "width:100%;height:90%;" allow="camera; microphone" src = {"https://mtt.one/minis/jitsimeet#/videocall/"+"HealthLink-" + $page.params.slug}></iframe>    
+    <iframe style = "width:100%;height:99vh;margin:0px;padding:0px;" allow="camera; microphone" src = {"https://mtt.one/minis/jitsimeet#/videocall/"+"HealthLink-" + $page.params.slug}></iframe>    
 </Dashboard>

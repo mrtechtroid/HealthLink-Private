@@ -47,6 +47,7 @@
             let b = doc.data();
             conversationList.push({id:doc.id,is_chatbot:b.is_chatbot,date_started:b.date_started.seconds*1000,date_ended:b.date_ended.seconds*1000,doctor_id:b.doctor_id,doctor_name:b.doctor_name,patient_name:b.patient_name})
         });
+        dataStore.update(function (state){return {...state,conversationlist:conversationList}})
     }
 </script>
 
