@@ -49,7 +49,7 @@
             let b = doc.data();
             reportList.push({id:doc.id,patient_name:b.patient_info.name,created:b.created.seconds*1000,severity:b.severity,symptoms:b.symptoms})
         });
-        dataStore.update(function (state){return {...state,reportlist:reportlist}})
+        dataStore.update(function (state){return {...state,reportlist:reportList}})
     }
 </script>
 
