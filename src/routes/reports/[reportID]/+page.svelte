@@ -2,58 +2,62 @@
     import Dashboard from "../../../components/Dashboard.svelte";
     import { getFirestore, doc, getDoc } from "firebase/firestore";
     import { page } from "$app/stores";
-    import { SAMLAuthProvider } from "firebase/auth";
     const db = getFirestore();
-    let name,
-        age,
-        gender,
-        past_disease,
-        allergies,
-        symptoms,
-        history,
-        summary,
-        severity,
-        predicted_illness,
-        other_illness;
+    let reportData = undefined
+    $: reportData = reportData
     let reportID = $page.params.reportID;
     async function getData() {
         const reportInst = doc(db, "reports", reportID);
         const reportDet = await getDoc(reportInst);
-        name = reportDet.data().patient_info.name;
-        age = reportDet.data().patient_info.age;
-        gender = reportDet.data().patient_info.gender;
-        past_disease = reportDet.data().patient_info.past_disease;
-        allergies = reportDet.data().patient_info.allergies;
-        symptoms = reportDet.data().symptoms;
-        history = reportDet.data().history;
-        summary = reportDet.data().summary;
-        severity = reportDet.data().severity;
-        predicted_illness = reportDet.data().predicted_illness;
-        other_illness = reportDet.data().other_illness;
+        if (reportDet.exists()){
+            reportData = reportDet.data()
+            console.log(reportData)
+        }else{
+            console.log("Invalid Report ID");
+        }
     }
     getData();
 </script>
 
 <Dashboard>
     <div class="InsideDashboard">
-        <h1>Medical Report:-</h1>
-        
-        <h2>Patient details:-</h2>
-        <table class="Report_details">
-            <tr><th>Patient Name: </th> <td>{name}</td><td><img src="edit.png"/></td></tr>
-            <tr><th>Patient age: </th> <td>{age}</td><td><img src="edit.png"/></td></tr>
-            <tr><th>Patient gender: </th> <td>{gender}</td><td><img src="edit.png"/></td></tr>
-            <tr><th>Past Illnesses: </th> <td>{past_disease}</td><td><img src="edit.png"/></td></tr>
-            <tr><th>Known allergies: </th> <td>{allergies}</td><td><img src="edit.png"/></td></tr>
-        </table>
-        <h2>Conversation details:-</h2>
+        <h1>Patient Report</h1>
+        <h2>Report Details</h2>
+        {#if reportData != undefined}
         <table>
-            <tr><th>Visible Symptoms: </th> <td>{symptoms}</td></tr>
-            <tr><th>Summary: </th> <td>{summary}</td></tr>
-            <tr><th>Severity: </th> <td>{severity}</td></tr>
-            <tr><th>Predicted Illness: </th> <td>{predicted_illness}</td></tr>
+            <tr><th>Last Updated: </th> <td>{new Date(reportData.last_updated.seconds*1000).toLocaleString(
+                "en-GB",
+                { hour12: false }
+            )}</td></tr>
+            <tr><th>Created On: </th> <td>{new Date(reportData.created.seconds*1000).toLocaleString(
+                "en-GB",
+                { hour12: false }
+            )}</td></tr>
         </table>
-        
+        <h2>Patient Details</h2>
+        <table>
+            <tr><th>Name: </th> <td>{reportData.patient_info.name}</td></tr>
+            <tr><th>Date of Birth: </th> <td>{reportData.patient_info.dob}</td></tr>
+            <tr><th>Gender: </th> <td>{reportData.patient_info.gender}</td></tr>
+            <tr><th>Past Illnesses: </th> <td>{reportData.patient_info.past_disease}</td></tr>
+            <tr><th>Known allergies: </th> <td>{reportData.patient_info.allergies}</td></tr>
+            <tr><th>Weight: </th> <td>{reportData.patient_info.weight}</td></tr>
+        </table>
+        <h2>Diagnosis</h2>
+        <table>
+            <tr><th>Severity: </th> <td>{reportData.severity}</td></tr>
+            <tr><th>Visible Symptoms: </th> <td>{reportData.symptoms}</td></tr>
+            <tr><th>Summary: </th> <td>{reportData.summary}</td></tr>
+            <tr><th>Predicted Illness: </th> <td>{reportData.predicted_illness}</td></tr>
+            <tr><th>Other Illness: </th> <td>{reportData.other_illness}</td></tr>
+        </table>
+        <h2>Verdict</h2>
+        <table>
+            <tr><th>Stage: </th> <td>{reportData.final_verdict.stage}</td></tr>
+            <tr><th>Prescription: </th> <td>{reportData.final_verdict.prescription}</td></tr>
+        </table>
+        <button on:click={function(){print()}}>Print Report</button>
+        {/if}
     </div>
 
 </Dashboard>
@@ -61,10 +65,8 @@
     <style>
         table, th, td
         {
-            border-bottom: 0.5px solid transparent;
             width: 90%;
             border-color: grey;
-            /* padding: 15px; */
             
         }
         table th,td
@@ -79,10 +81,11 @@
         table
         {
             margin: auto;
-            /* margin-top: 10%;
-            margin-bottom: 10%; */
             border-radius: 5px;
             box-shadow: 5px 5px 5px rgb(244, 222, 255)
+        }
+        table th, td{
+            border-bottom: 0.5px solid black;
         }
         table tr:hover
         {
@@ -96,7 +99,7 @@
            background-color: white;
         }
 
-        .InsideDashboard h2,h1
+        .InsideDashboard h2
         {
             padding-top: 4%;
             padding-left: 4%;
@@ -109,14 +112,46 @@
             text-align: center;
             width: 90%;
         }
-        /* .InsideDashboard
-        {
-            background-color:rgba(120, 230, 206,0.1);
-        } */
-        
-        /* @media screen and (max-width:500px)
-        {
-            dashboard{width: 0%;}
-        } */
+        @media screen and (max-width: 600px) {
+
+  table caption {
+    font-size: 1.3em;
+  }
+  
+  table thead {
+    border: none;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+  }
+  
+  table tr {
+    border-bottom: 3px solid #ddd;
+    display: block;
+    margin-bottom: .625em;
+  }
+  
+  table td {
+    border-bottom: 1px solid #ddd;
+    display: block;
+    font-size: .8em;
+    text-align: left;
+  }
+  
+  table td::before {
+    content: attr(data-label);
+    float: left;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  
+  table td:last-child {
+    border-bottom: 0;
+  }
+}
     </style>
 

@@ -167,7 +167,6 @@
         transition: all 0.3s ease-in-out;
         overflow-y: scroll;
     }
-
     /*----- Right SideBar -----*/
 
     .right_sidebar {
@@ -256,6 +255,21 @@
         color: #5bb9c0;
         font-size: 14px;
         margin-left: 12px;
+    }
+    @media print {
+        .left_sidebar{
+            display: none;
+        }
+        .right_sidebar{
+            display: none;
+        }
+        body {
+            height:max-content;
+        }
+        .main_content{
+            height:max-content;
+            width:100%;
+        }
     }
     @media screen and (max-width:500px){
         .menu_item p{
