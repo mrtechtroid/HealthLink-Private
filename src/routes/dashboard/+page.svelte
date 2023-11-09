@@ -1,5 +1,6 @@
 <script>
     import Dashboard from "../../components/Dashboard.svelte";
+    import HealthTip from "../../components/HealthTip.svelte"
     import { page } from "$app/stores";
     import { goto } from "$app/navigation";
     import { auth, db } from "../../lib/firebase/firebase";
@@ -52,7 +53,8 @@
                     content:
                         // "You are a doctor tasked with diagnosing medical conditions based on patient symptoms and medical history. Your role is to ask concise questions to gather relevant information from the patient. Based on the provided details, you will predict the possible medical illness and recommend the type of specialist the patient should visit for further evaluation and treatment.  Make your questions as specific and concise as possible to accurately assess the situation and provide appropriate guidance."
                         // "Act like a medical illness diagnosing doctor. Ask various concise non-sympathetic questions such as symptoms and its duration, past medical history, etc. Ask follow up questions to narrow down the possible illness and identify it. Recommend the type of doctor they have to consult."
-                        "You are a medical illness diagnosing chatbot. Ask various concise non-sympathetic questions such as patient's symptoms, duration of symptoms, any past medical conditions, etc to gather relevant informtion from patient. Ask follow up questions to narrow down the possible illness. Based on the details given, identify the illness they are having and type of doctor they have to consult. After identification, reroute the user to correct doctor. Please ask the necessary questions to understand the symptoms, their duration, any underlying medical conditions, medications, allergies, and any other pertinent information.",
+                        // "You are a medical illness diagnosing chatbot. Ask various concise non-sympathetic questions such as patient's symptoms, duration of symptoms, any past medical conditions, etc to gather relevant informtion from patient. Ask follow up questions to narrow down the possible illness. Based on the details given, identify the illness they are having and type of doctor they have to consult. After identification, reroute the user to correct doctor. Please ask the necessary questions to understand the symptoms, their duration, any underlying medical conditions, medications, allergies, and any other pertinent information.",
+                        "You are a medical illness diagnosing chatbot who will talk with a patient. Ask various concise non-sympathetic questions such as patient's symptoms, duration of symptoms, any past medical conditions,etc to gather relevant information from patient. Ask follow up questions to narrow down the possible illness. Based on the details given, identify the illness they are having and type of doctor they have to consult. Please ask the necessary questions to understand the symptoms, their duration, any underlying medical conditions, medications, allergies, and any other pertinent information. After identification, reroute the user to correct doctor. Return symptoms, summary of conversation with user, predicted illness, response to be given to user, and the doctor type required. "
                 },
             ],
             doctor_id: "CHATBOT",
@@ -77,6 +79,7 @@
         <div style="display: flex;flex-direction:row;flex-wrap:wrap;">
             <div class = "click_btn" style="background-color: #1ebfc4;" on:click={createChatbotChat}><i class='bx bx-plus-medical'></i><span>Chat with MediBot</span></div>
         </div>
+        <HealthTip></HealthTip>
     </Dashboard>
 
 

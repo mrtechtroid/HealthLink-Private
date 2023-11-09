@@ -25,6 +25,7 @@
         where,
     } from "firebase/firestore";
     let userID;
+    let user;
     let conversationList = [];
 	const unsubscribe = authStore.subscribe((value) => {
         if (value.user!=undefined){
@@ -33,15 +34,24 @@
 	});
     const unsubscribe2 = dataStore.subscribe((value) => {
 		conversationList = value.conversationlist
+        user = value.basicinfo
         if (conversationList.length == 0 && userID != undefined){
             getChatList()
         }
 	});
     async function getChatList() {
-        const q = query(
+        let q
+        if (user.is_doctor == true){
+            q = query(
+            collection(db, "chat"),
+            where("doctor_id", "==", userID),orderBy("date_started", "desc"),limit(10)
+        );
+        }else{
+            q = query(
             collection(db, "chat"),
             where("patient_id", "==", userID),orderBy("date_started", "desc"),limit(10)
         );
+        }
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
             let b = doc.data();
@@ -63,7 +73,11 @@
                 {/if}
             </div>
             <div style = "display:flex;flex-direction:column">
-                <span style="font-size: medium;">Doctor {elem.doctor_name}</span>
+                {#if user.is_doctor==true}
+                    <span style="font-size: medium;">Patient {elem.patient_name}</span>
+                {:else}
+                    <span style="font-size: medium;">Doctor {elem.doctor_name}</span>
+                {/if}
                 <span style="font-size: smaller;">Started On: {(new Date(elem.date_started)).toLocaleString()}</span>
             </div>
         </div>
