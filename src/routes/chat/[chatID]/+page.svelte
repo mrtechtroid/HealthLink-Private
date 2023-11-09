@@ -32,6 +32,7 @@
         dangerouslyAllowBrowser: true,
     });
     let authStoreVariable, dataStoreVariable;
+    $: dataStoreVariable = dataStoreVariable
     const unsubscribe2 = authStore.subscribe((value) => {
         if (value.user != { email: "test@test.cc", uid: "" }) {
             authStoreVariable = value.user;
@@ -59,6 +60,8 @@
 
     const unsub = onSnapshot(doc(db, "chat", chatID), (doc) => {
         chatInfo = doc.data();
+        reportID = doc.data().report;
+        scrollToBottom(msgrchat)
     });
 
     function readFile() {
@@ -84,6 +87,13 @@
         FR.readAsDataURL(this.files[0]);
     }
     async function videocall_sendMessage() {
+        for (let i = chatInfo.db_messages.length-1;i>=0;i--){
+            console.log(chatInfo.db_messages[i].time-parseInt(new Date().toUTCString()))
+            if (chatInfo.db_messages[i].role == "videocall" && Date.now()-chatInfo.db_messages[i].time<300000){ 
+                alert("A Video Meeting is already running!")
+                return
+            }
+        }
         function makeid(length) {
             let result = "";
             const characters =
@@ -130,6 +140,12 @@
             allowed_doctors: arrayUnion(docID),
         });
         goto("/r/chat~" + docRef.id);
+    }
+    async function endchat(){
+        await updateDoc(doc(db, "chat", chatID), {
+                date_ended: serverTimestamp(),
+                chat_ended: true,
+            });
     }
     async function askHealthCareProf() {
         if (chatInfo != {} && chatInfo.chat_ended) {
@@ -199,7 +215,7 @@
                 final_verdict: {},
                 attachments: "",
             });
-            let reportID = docRef.id;
+            reportID = docRef.id;
             await updateDoc(doc(db, "chat", chatID), {
                 date_ended: serverTimestamp(),
                 chat_ended: true,
@@ -220,6 +236,11 @@
             ) {
                 count_predicted_illness += 1;
             }
+            if (db_messages[i].role == "assistant" &&
+                db_messages[i].predicted_illness == "severe"){
+                    askHealthCareProf();
+                    return false;
+                }
             if (count_mild_severe >= 2 || count_predicted_illness >= 2) {
                 askHealthCareProf();
                 return false;
@@ -297,7 +318,7 @@
             functions: [
                 {
                     name: "e",
-                    description: "Every response",
+                    description: "The most suitable doctor and severity to be returned. Must be one from the enum.",
                     parameters: {
                         type: "object",
                         properties: {
@@ -349,7 +370,7 @@
                         required: [
                             "symptoms",
                             "response_to_user",
-                            "summary",
+                            "conversation_summary",
                             "severity",
                             "doctor_type",
                             "predicted_illness",
@@ -360,20 +381,22 @@
             function_call: { name: "e" },
             temperature: 0.5,
             max_tokens: 256,
-            top_p: 0.5,
+            top_p: 1,
+            frequency_penalty:0.2,
         });
         const responseMessage =
             response.choices[0].message.function_call.arguments;
+        console.log(response.choices[0])
         return responseMessage;
     }
     function us_M() {
         user_sendMessage(chatInfo.is_chatbot);
     }
     onDestroy(unsub);
-    let msgrchat = "";
-    $: if (msgrchat != "") {
-        msgrchat.scrollTop = msgrchat.scrollHeight;
-    }
+    let msgrchat;
+    const scrollToBottom = async (node) => {
+        node.scroll({ top: node.scrollHeight, behavior: 'smooth' });
+    }; 
 </script>
 
 <Dashboard>
@@ -384,26 +407,37 @@
         <div class="msger-header">
             <div>Doctor {chatInfo.doctor_name}</div>
             <div>Patient: {chatInfo.patient_name}</div>
-            <!-- {#if dataStoreVariable.is_doctor} -->
+            {#if !chatInfo.chat_ended && dataStoreVariable.is_doctor && chatInfo.is_chatbot==false}
             <button
                 class="msger-send-btn"
                 on:click={videocall_sendMessage}
-                disabled={chatInfo.chat_ended}>Video Call</button
+                disabled={chatInfo.chat_ended}>Start Video Call</button
             >
-            <!-- {/if} -->
-            {#if chatInfo.report != "" || chatInfo.report == undefined}
+            {/if}
+            {#if !chatInfo.chat_ended && dataStoreVariable.is_doctor && chatInfo.is_chatbot==false}
+            <button
+                class="msger-send-btn" style="background-color: red;"
+                on:click={function(){
+                    var agree = prompt("Are you sure you want to end this chat? Please type YES")
+                    if (agree=="YES"){
+                        endchat()
+                    }
+                }}
+                disabled={chatInfo.chat_ended}>End Chat</button
+            >
+            {/if}
+            {#if (chatInfo.report != "" || chatInfo.report == undefined) && chatInfo.is_chatbot==false}
                 <button
-                    type="submit"
                     class="msger-send-btn"
                     on:click={function () {
                         goto("/r/reports~" + chatInfo.report);
                     }}
-                    disabled={(chatInfo.chat_ended && chatInfo.is_chatbot) || !chatInfo.is_chatbot}
+                    
                     >Patient Report</button
                 >
             {/if}
         </div>
-        <main class="msger-chat" id="msger-chat" bind:this={msgrchat}>
+        <main class="msger-chat" id="msger-chat" bind:this={msgrchat} on:change={function(){scrollToBottom(msgrchat)}}>
             {#if db_messages != undefined}
                 {#if db_messages.length <= 1}
                     <div>Say Hi to start the Conversation.</div>
@@ -412,7 +446,7 @@
                     {#if item.role == "system"}
                         <div />
                     {:else if item.role == "doctor"}
-                        <div class="msg right-msg">
+                        <div class="msg left-msg">
                             <div class="msg-bubble">
                                 <div class="msg-info">
                                     <div class="msg-info-name">
@@ -608,6 +642,7 @@
             <input
                 type="text"
                 id="msger-input"
+                on:keypress={function(e){if (e.key == "Enter"){us_M()}}}
                 disabled={chatInfo.chat_ended}
                 placeholder="Enter your message..."
                 bind:value={msgerInput}

@@ -13,6 +13,7 @@
     <div class="left_sidebar">
         <div class="menu_items">
             <div class="menu_item" id = "title_logo">HealthLink</div>
+            <div class="menu_item" id = "title_logo_small"></div>
             <div class="menu_item" on:click={function(){goto("/dashboard")}}>
                 <i class="bx bxs-dashboard" />
                 <p>Dashboard</p>
@@ -102,6 +103,9 @@
         font-size:26px;
         color:black;
     }
+    #title_logo_small{
+        display: none;
+    }
     .container {
         display: flex;
         height: 99vh;
@@ -155,6 +159,7 @@
         color: var(--grey-color);
         padding: 20px 30px;
         cursor: pointer;
+        width:20vw;
     }
 
     /*----- Main Content -----*/
@@ -271,18 +276,25 @@
             width:100%;
         }
     }
-    @media screen and (max-width:500px){
+    @media screen and (max-width:940px){
         .menu_item p{
             display:none;
-        }
-        .logo{
-            background-image: url("favicon.png");
         }
         .right_sidebar {
             display:none;
         }
         .main_content{
             width:80vw;
+        }
+        .left_sidebar .menu_items .menu_item{
+            width:90px;
+        }
+        #title_logo_small{
+            display:block;
+        }
+        #title_logo{
+            display:none;
+            background-image: url("favicon.png");
         }
     }
 </style>
