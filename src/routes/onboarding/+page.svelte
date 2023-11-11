@@ -63,13 +63,16 @@
 
 {#if x == 1}
   <div class="basic">
-    <h1>tell us about yourself</h1>
+    <h1>Tell us about yourself</h1>
+    <br>
     <label>
       <input bind:value={name} type="text" placeholder="Enter Your Name" />
     </label>
+    <br>
     <label>
       <input bind:value={dob} type="date" placeholder="dd/mm/yyyy" />
     </label>
+    <br>
     <label>
       <input
         bind:value={mobileno}
@@ -78,8 +81,16 @@
         placeholder="Enter Your Mobile Number"
       />
     </label>
+    <br>
     <div class="merebutton">
       <button
+        type="submit" class = "back"
+        on:click={function () {
+          decx(1);
+        }}>Back</button
+      >
+
+      <button class = "next"
         type="submit"
         on:click={function () {
           setx(2);
@@ -89,15 +100,16 @@
   </div>
   <!--enter gender ,ht,wt-->
 {:else if x == 2}
+  <div class = "page2">
   <div class="gender_button-container">
     <h1>Select gender</h1>
     <input type="radio" bind:value={gender} id="gender" />
     <span class="gender-button"
-      ><img src="/undraw_Female_avatar_efig.png" alt="female" /></span
+      ><img src="/undraw_Female_avatar_efig.png" alt="female" width = "150" height = "150" /></span
     >
     <input type="radio" bind:value={gender} id="gender" />
     <span class="gender-button"
-      ><img src="/undraw_Male_avatar_g98d.png" alt="male" /></span
+      ><img src="/undraw_Male_avatar_g98d.png" alt="male" width = "150" height = "150" /></span
     >
   </div>
   <div class="bodyratio">
@@ -122,12 +134,42 @@
           decx(1);
         }}>Back</button
       >
-      <button
-        type="submit"
-        on:click={function () {
-          setx(3);
-        }}>Next</button
+      <input type="radio" bind:value={gender} id="gender" />
+      <span class="gender-button"
+        ><img src="/undraw_Male_avatar_g98d.png" alt="male" width = "150" height = "150" /></span
       >
+    </div>
+    <br><br><br>
+    <div class="bodyratio">
+      <label
+        >Height in cms:<input
+          bind:value={height}
+          type="text"
+          placeholder="Enter your height"
+        /></label
+      >
+      <label
+        >Weight in kilos:<input
+          bind:value={weight}
+          type="text"
+          placeholder="Enter your weight"
+        /></label
+      >
+      <br><br>
+      <div class="merebutton">
+        <button class  = "back"
+          type="submit"
+          on:click={function () {
+            decx(2);
+          }}>Back</button
+        >
+        <button class = "next"
+          type="submit"
+          on:click={function () {
+            setx(3);
+          }}>Next</button
+        >
+      </div>
     </div>
   </div>
 
@@ -135,6 +177,7 @@
 {:else if x == 3}
   <div class="disease">
     <h3>Any Past/Current Major Health Problems?</h3>
+    <br>
     <div class="inner1">
       <p>
         <input bind:value={past_disease} type="checkbox" id="cancer" /> Cancer
@@ -167,16 +210,17 @@
         <input bind:value={past_disease} type="checkbox" id="alzheimers" /> Alzheimer's
       </p>
     </div>
+    <br>
     <label>Others:<input type="text" bind:value={past_disease} /></label>
-
+    <br>
     <div class="merebutton">
-      <button
+      <button class = "back"
         type="submit"
         on:click={function () {
           decx(2);
         }}>Back</button
       >
-      <button
+      <button class = "next"
         type="submit"
         on:click={function () {
           setx(4);
@@ -188,65 +232,138 @@
   <!--med and allergy-->
 {:else if x == 4}
   <div class="medall">
-    <p>medicaiton and allergy</p>
+    <p>Medicaiton and Allergies</p>
+    <br><br><br>
     <div class="merebutton">
-      <button
+      <button class = "back"
         type="submit"
         on:click={function () {
           decx(3);
         }}>Back</button
       >
-      <button type="submit">Next</button>
+      <button class = "next" type="submit">Next</button>
     </div>
   </div>
 {/if}
 
+
 <style>
-  /*x=1*/
 
   .basic {
-    color: black;
-    background-color: green;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    color:black;
+    justify-content: center;
+    flex: 1;
+    width: 100%;
+    height:500%;
+    background-image: linear-gradient(
+                rgba(206, 252, 241, 0.9),
+                rgba(244, 222, 255, 0.9)
+            ),
+            url(bgvev1.png);
   }
-
-  /*x=2*/
-  .bodyratio {
-    color: black;
-    background-color: white;
-    display: flex;
-    flex-direction: column;
-  }
-  img {
-    width: 100px;
-    height: 100px;
-  }
-  .gender_button-container {
+  
+  .merebutton{
+    text-align: center;
+    width: 15%;
+    font-size: 30px;
+    justify-content:center;
     display: flex;
     flex-direction: row;
-    width: 50%;
-    color: black;
   }
 
-  .gender-button {
-    font-size: 1.125rem;
-    color: #fff;
-    background-color: #4caf50;
-    cursor: pointer;
+  .next
+  {
+    background-color:rgb(120, 230, 206) ;
+    border-radius:12px;
+    width:50%;
+    font-size: 30px;
+    float: right;
+    margin-left: 10px;
+  }
+
+  .back
+  {
+    background-color:rgb(120, 230, 206) ;
+    border-radius:12px;
+    width:50%;
+    font-size: 30px;
+    float:left;
+    margin-right: 10px;
+  }
+
+   label {
+    background-color:aliceblue;
+    width: 300px;
+    font-size: 20px;
+    border-style: solid;
+
+  }
+
+  p{
+    color:black;
+    font-size: 20px;
+  }
+
+  h1 {
+    text-align: center;
+    color:#009688;
+    border: 1px;
     border-radius: 5px;
-    transition: background-color 0.3s;
+    padding: 2px;
+    font-family: sans-serif;
+    font-size: xx-large;
+  } 
+
+  label {
+    position: relative;
+    border: 1px solid Onavy;
+    border-radius: 5px;
   }
 
-  /*x=3*/
-  .disease {
-    max-width: 400px;
-    margin: 0 auto;
+  input {
+    width: 300px;
+    border: none;
+    background: transparent;
     color: black;
+    padding: 14px;
+  }
+
+  .page2
+  {
     display: flex;
     flex-direction: column;
-    border-radius: 5px;
-    background-color: aqua;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    width: 100%;
+    height:500%;
+    background-image: linear-gradient(
+                rgba(206, 252, 241, 0.9),
+                rgba(244, 222, 255, 0.9)
+            ),
+            url(bgvev1.png);
+    color:black;
+  }
+
+
+  .disease
+  {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    width: 100%;
+    height:500%;
+    background-image: linear-gradient(
+                rgba(206, 252, 241, 0.9),
+                rgba(244, 222, 255, 0.9)
+            ),
+            url(bgvev1.png);
+    color:black;
   }
 
   .disease h3 {
@@ -277,9 +394,21 @@
     flex-direction: row;
   }
 
-  /*x=4*/
-  .medall {
-    color: black;
-  }
-  /*overall ig*/
+.medall
+{
+  display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    width: 100%;
+    height:500%;
+    background-image: linear-gradient(
+                rgba(206, 252, 241, 0.9),
+                rgba(244, 222, 255, 0.9)
+            ),
+            url(bgvev1.png);
+    color:black;
+}
 </style>
+
