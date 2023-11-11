@@ -2,12 +2,46 @@
   import { onMount } from "svelte";
   import { db } from "../lib/firebase/firebase";
   import { auth } from "../lib/firebase/firebase";
+  import { goto } from "$app/navigation";
   import { authStore, dataStore } from "../store/store";
-  import { serverTimestamp } from "firebase/firestore";
+  import {
+        getFirestore,
+        orderBy,
+        limit,
+        writeBatch,
+        collection,
+        addDoc,
+        onSnapshot,
+        deleteDoc,
+        arrayUnion,
+        arrayRemove,
+        setDoc,
+        updateDoc,
+        getDocs,
+        doc,
+        serverTimestamp,
+        getDoc,
+        query,
+        where,
+    } from "firebase/firestore";
   const nonAuthRoutes = ["/", "/aboutus", "/contactus", "/login", "/register"];
-
+  let authStoreVariable,dataStoreVariable
+  const unsubscribe2 = authStore.subscribe((value) => {
+        if (value.user!={email:"test@test.cc",uid:"RANDOMID"}){
+          authStoreVariable = value.user
+        }else{
+          authStoreVariable = {email:"test@test.cc",uid:"RANDOMID"}
+        }
+	});
+  const unsubscribe3 = dataStore.subscribe((value) => {
+        if (value.basicinfo!={}){
+          dataStoreVariable = value
+        }else{
+          dataStoreVariable = {}
+        }
+	});
+  let unsub
   onMount(function () {
-    console.log("Mounting");
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
       const currentPath = window.location.pathname;
       // If user is logged out OR User is not in a page which doesnt require authentication. Redirect him
@@ -15,36 +49,41 @@
         window.location.href = "/";
         return;
       }
+      if (user && currentPath == "/register"){
+        window.location.href = "/onboarding"
+      }
       // If user was already logged in, and he is in landing page, redirect him to dashboard.
-      if (user && currentPath == "/") {
+      if (user && (currentPath == "/" || currentPath == "/login")) {
         window.location.href = "/dashboard";
       }
-      authStore.user = user;
+      authStore.update(function (state){return {...state,user:user}})
       const docRef = doc(db, "users", user.uid);
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
-        dataStore = docSnap.data();
-        console.log("Document data:", docSnap.data());
+        unsub = onSnapshot(doc(db, "users", authStoreVariable.uid), (doc) => {
+          dataStore.update(function (state){return {...state,basicinfo:doc.data()}})
+        });
       } else {
         // docSnap.data() will be undefined in this case
         await setDoc(doc(db, "users", user.uid), {
-          name: "",
-          height: 0,
-          weight: 0,
+          name: "Some Random Guy",
+          height: 180,
+          weight: 75,
           dob: "",
           gender: "",
-          phno: 0,
-          city: "",
+          mobileno: 0,
+          place: "",
           state: "",
-          past_disease: "",
+          allergies: "",
+          past_disease: [],
           is_doctor: false,
           doctor_roles: [],
-          allergies: "",
+          email: user.email,
           registered_on: serverTimestamp(),
           profile_last_updated: serverTimestamp(),
         });
       }
-
+      goto("/r/dashboard")
       // Implement code for getting user details and store it in `dataStore.basicinfo`
     });
   });

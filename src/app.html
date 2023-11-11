@@ -4,7 +4,10 @@
 <head>
 	<meta charset="utf-8" />
 	<link rel="icon" href="%sveltekit.assets%/favicon.png" />
+	<title>HealthLink</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<script type="text/javascript" src="https://meet.engagemedia.org/external_api.js"></script>
+	<link rel="manifest" href = "%sveltekit.assets%/healthlink.webmanifest">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Nunito&display=swap" rel="stylesheet">
@@ -18,7 +21,9 @@
 			margin: 0px;
 			padding: 0px;
 		}
-
+		body {
+			overflow-x:hidden;
+		}
 		.material-symbols-outlined {
 			font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 24;
 		}
@@ -40,6 +45,15 @@
         ::-webkit-scrollbar-thumb:hover {
             background: #555;
         }
+		textarea:focus, input:focus{
+    		outline: none;
+		}
+		button{
+			cursor: pointer;
+		}
+		button:hover{
+    		filter:grayscale(0.5),
+  		}
 	</style>
 </head>
 

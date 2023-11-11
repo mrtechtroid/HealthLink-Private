@@ -37,8 +37,8 @@
   let x = 1;
 
   let name = "";
-  let height = 0;
-  let weight = 0;
+  let height = null;
+  let weight = null;
   let dob = "";
   let gender = "";
   let mobileno = null;
@@ -101,11 +101,38 @@
   <!--enter gender ,ht,wt-->
 {:else if x == 2}
   <div class = "page2">
-    <div class="gender_button-container">
-      <p>Select gender</p>
-      <input type="radio" bind:value={gender} id="gender" />
-      <span class="gender-button"
-        ><img src="/undraw_Female_avatar_efig.png" alt="female" width = "150" height = "150" /></span
+  <div class="gender_button-container">
+    <h1>Select gender</h1>
+    <input type="radio" bind:value={gender} id="gender" />
+    <span class="gender-button"
+      ><img src="/undraw_Female_avatar_efig.png" alt="female" width = "150" height = "150" /></span
+    >
+    <input type="radio" bind:value={gender} id="gender" />
+    <span class="gender-button"
+      ><img src="/undraw_Male_avatar_g98d.png" alt="male" width = "150" height = "150" /></span
+    >
+  </div>
+  <div class="bodyratio">
+    <label
+      >Height in cms:<input
+        bind:value={height}
+        type="text"
+        placeholder="Enter your height"
+      /></label
+    >
+    <label
+      >Weight in kilos:<input
+        bind:value={weight}
+        type="text"
+        placeholder="Enter your weight"
+      /></label
+    >
+    <div class="merebutton">
+      <button
+        type="submit"
+        on:click={function () {
+          decx(1);
+        }}>Back</button
       >
       <input type="radio" bind:value={gender} id="gender" />
       <span class="gender-button"
