@@ -2,6 +2,8 @@
     import Dashboard from "../../../components/Dashboard.svelte";
     import { getFirestore, doc, getDoc } from "firebase/firestore";
     import { page } from "$app/stores";
+    import { GoogleAuthProvider } from "firebase/auth";
+    import { goto } from "$app/navigation";
     const db = getFirestore();
     let reportData = undefined
     $: reportData = reportData
@@ -56,13 +58,30 @@
             <tr><th>Stage: </th> <td>{reportData.final_verdict.stage}</td></tr>
             <tr><th>Prescription: </th> <td>{reportData.final_verdict.prescription}</td></tr>
         </table>
-        <button on:click={function(){print()}}>Print Report</button>
+        <div style = "display:flex;flex-direction:row;align-items:center;justify-content:space-evenly">
+            <button class = "msger-send-btn" on:click={function(){print()}}>Print Report</button>
+            <button class = "msger-send-btn" on:click={function(){goto("/r/edit_reports~"+$page.params.reportID)}}>Edit Report</button>
+        </div>
         {/if}
     </div>
 
 </Dashboard>
 
     <style>
+        .msger-send-btn {
+        background: rgb(0, 196, 65);
+        color: #fff;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.23s;
+        padding: 10px;
+        border: none;
+        border-radius: 3px;
+        font-size: 1em;
+    }
+    .msger-send-btn:hover {
+        background: rgb(0, 180, 50);
+    }
         table, th, td
         {
             width: 90%;

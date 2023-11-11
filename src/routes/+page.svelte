@@ -1,21 +1,29 @@
+<script>
+  import { goto } from "$app/navigation";
+</script>
+
 <div class="banner">
-    <div class="navbar">
-        <img src="healthlink.png" class="logo" />
-        <ul>
-            <li><a href="./login">Log in</a></li>
-            <li><a href="./register">Sign up</a></li>
-        </ul>
+  <div class="navbar">
+    <img src="healthlink.png" class="logo" />
+    <ul>
+      <li><a href="./login">Log in</a></li>
+      <li><a href="./register">Sign up</a></li>
+    </ul>
+  </div>
+  <div class="content">
+    <div><span>Affordable health-care<br />at your Fingertips</span></div>
+    <div>
+      <button
+        type="button"
+        on:click={function () {
+          goto("/login");
+        }}>CHAT NOW</button
+      >
     </div>
-    <div class="content">
-        <div><span>Affordable health-care<br>at your Fingertips</span></div>
-        <div>
-            <button type="button">CHAT NOW</button>
-            <button type="button">BOOK AN APPOINTMENT</button>
-        </div>
-    </div>
+  </div>
 </div>
 <div class="pg2">
-  <h1>How do we do it?</h1>
+  <h1>What do we Offer?</h1>
   <div class="feature">
     <div><img src="feat_img1 (2).png" class="feat_img" /></div>
     <div>
@@ -52,47 +60,91 @@
 </div>
 
 <div class="pg3">
-  <h1>What have we done so far?</h1>
+  <h1>Our Specialists</h1>
   <div class="Testimonials">
     <div class="person">
-      <div><img src="test_img1.jpg" class="test_img" /></div>
-      <div>
-        <p>
-          These guys are the best, they do their work so wonderfully well and
-          ther work is so s so satisfying. am genuinely satisfied.
-        </p>
-      </div>
-      <div><h3>Salmon Salmon</h3></div>
-      <div><h4>Marketing- Amazon productions</h4></div>
+      <div><img src="doc_1.png" class="test_img" /></div>
+      <div><h3>Dr. Kunal</h3></div>
+      <div><h4>General Practioner</h4></div>
     </div>
 
     <div class="person">
-      <div><img src="test_img1.jpg" class="test_img" /></div>
-      <div>
-        <p>
-          These guys are the best, they do their work so wonderfully well and
-          ther work is so s so satisfying. am genuinely satisfied.
-        </p>
-      </div>
-      <div><h3>Salmon Salmon</h3></div>
-      <div><h4>Marketing- Amazon productions</h4></div>
+      <div><img src="doc_2.png" class="test_img" /></div>
+      <div><h3>Dr. Geeta Kumar</h3></div>
+      <div><h4>Pediatrician</h4></div>
     </div>
 
     <div class="person">
-      <div><img src="test_img1.jpg" class="test_img" /></div>
-      <div>
-        <p>
-          These guys are the best, they do their work so wonderfully well and
-          ther work is so s so satisfying. am genuinely satisfied.
-        </p>
-      </div>
-      <div><h3>Salmon Salmon</h3></div>
-      <div><h4>Marketing- Amazon productions</h4></div>
+      <div><img src="doc_3.png" class="test_img" /></div>
+      <div><h3>Dr. John Smith</h3></div>
+      <div><h4>Cardiologist</h4></div>
     </div>
   </div>
 </div>
-<hr color="white" width="100%" />
-<div class="pg4" />
+<div class="pg4">
+  <h1>What do People Say?</h1>
+  <div class="Testimonials">
+    <div class="person">
+      <div><img src="pat_1.png" class="test_img" /></div>
+      <div><h3>Julia</h3></div>
+      <div>
+        <h4>
+          Moving to a new country can be overwhelming, especially when it comes
+          to healthcare. HealthLink bridged the gap for me. I consulted with a
+          doctor who not only understood my health concerns but also guided me
+          through the local healthcare system. HealthLink truly made me feel at
+          home, even miles away.
+        </h4>
+      </div>
+    </div>
+    <div class="person">
+      <div><img src="pat_2.png" class="test_img" /></div>
+      <div><h3>Rahul</h3></div>
+      <div>
+        <p>
+          Living in a bustling city, I found it challenging to schedule doctor
+          visits. HealthLink made healthcare accessible right from my
+          smartphone. The prompt and professional advice I received from an
+          Indian doctor online was reassuring. HealthLink has become my go-to
+          for medical guidance.
+        </p>
+      </div>
+    </div>
+
+    <div class="person">
+      <div><img src="pat_3.png" class="test_img" /></div>
+      <div><h3>Aishwariya</h3></div>
+      <div>
+        <h4>
+          Being a working professional and a mom, time is a precious commodity.
+          HealthLink has been a lifesaver for me. I connected with a wonderful
+          gynecologist who provided excellent guidance and support during my
+          pregnancy. It's like having a trusted doctor at my fingertips.
+        </h4>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="footer">
+  <span>Copyright 2023-24 HealthLink</span>
+  <span>Built for ByteSynergy 2.0</span>
+  <p style = "font-size:small;color:aliceblue;width:80%;">
+    HealthLink takes the privacy and security of your health data seriously. By
+    using our platform, you acknowledge and consent to the collection of certain
+    health-related information to provide you with personalized and efficient
+    healthcare services. We adhere to stringent data protection standards and
+    comply with applicable healthcare laws. Please be aware that, in certain
+    instances, anonymized and aggregated data may be shared with third-party
+    partners for research and analytical purposes. However, rest assured that
+    any information shared will be in compliance with relevant privacy laws and
+    regulations. Your trust is important to us, and we are committed to
+    safeguarding your sensitive information. For a comprehensive understanding
+    of our data practices, please refer to our Privacy Policy. If you have any
+    concerns or questions, feel free to contact our support team. HealthLink is
+    dedicated to providing you with accessible and high-quality healthcare,
+    placing your well-being at the forefront of our services.
+  </p>
+</div>
 
 <style>
   .banner {
@@ -107,7 +159,14 @@
     flex-direction: column;
     align-items: center;
   }
-
+  .footer {
+    background-color: #009688;
+    width: 100%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
   .navbar {
     width: 85vw;
     /* margin: auto; */
@@ -269,7 +328,7 @@
   }
   .pg3 {
     width: 100%;
-    height: 75vh;
+    height: max-content;
     background-color: rgb(244, 222, 255);
     background-size: cover;
     background-position: center;
@@ -281,14 +340,25 @@
   }
 
   .pg4 {
-    width: 100%;
-    height: 70vh;
-    /* background-color: rgb(244, 222, 255); */
-    background-color: #009688;
     background-size: cover;
     background-position: center;
     color: #96000e;
+    background-image: linear-gradient(
+      rgba(244, 222, 255, 0.9),
+      rgba(206, 252, 241, 0.9)
+    );
+    width: 100%;
+    height: max-content;
+    background-color: rgb(244, 222, 255);
+    background-size: cover;
+    background-position: center;
+    color: #96000e;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
   }
+
   .pg3 h1 {
     font-size: min(40px, 7vh);
     text-align: center;
@@ -325,25 +395,25 @@
     transition: 0.2s;
   }
 
-  .person:hover {
+  /* .person:hover {
     box-shadow: 10px 5px 5px rgb(244, 222, 255);
     border: 3px solid rgb(244, 222, 255);
-  }
+  } */
   .person div {
     margin-bottom: 3vh;
     text-align: left;
   }
-  .person .h4 {
-    text-align: left;
-    margin-left: 3%;
+  .person h4 {
+    text-align: center;
+    /* margin-left: 3%; */
   }
-  .person .h3 {
-    text-align: left;
-    margin-left: 3vw;
+  .person h3 {
+    text-align: center;
+    /* margin-left: 3vw; */
   }
-  .person .p {
-    text-align: left;
-    margin-left: 3vw;
+  .person p {
+    text-align: center;
+    /* margin-left: 3vw; */
   }
 
   .test_img {

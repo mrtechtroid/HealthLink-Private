@@ -49,8 +49,11 @@
         window.location.href = "/";
         return;
       }
+      if (user && currentPath == "/register"){
+        window.location.href = "/onboarding"
+      }
       // If user was already logged in, and he is in landing page, redirect him to dashboard.
-      if (user && (currentPath == "/" || currentPath == "/login" || currentPath == "/register")) {
+      if (user && (currentPath == "/" || currentPath == "/login")) {
         window.location.href = "/dashboard";
       }
       authStore.update(function (state){return {...state,user:user}})
