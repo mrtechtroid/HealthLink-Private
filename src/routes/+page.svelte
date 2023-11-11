@@ -22,6 +22,7 @@
     </div>
   </div>
 </div>
+
 <div class="pg2">
   <h1>What do we Offer?</h1>
   <div class="feature">
