@@ -1,17 +1,19 @@
 <script>
     import { page } from "$app/stores";
     import { db } from "../lib/firebase/firebase"
-    import { authStore,dataStore } from "../store/store";
+    import { authStore,dataStore,authHandlers } from "../store/store";
     import { goto } from "$app/navigation";
     let dataLocal = null
     const unsubscribe = dataStore.subscribe((value) => {
         dataLocal = value.basicinfo
     });
+
 </script>
 <div class="container">
     <div class="left_sidebar">
         <div class="menu_items">
-            <div class="menu_item"><div class = "logo"/></div>
+            <div class="menu_item" id = "title_logo">HealthLink</div>
+            <div class="menu_item" id = "title_logo_small"></div>
             <div class="menu_item" on:click={function(){goto("/dashboard")}}>
                 <i class="bx bxs-dashboard" />
                 <p>Dashboard</p>
@@ -25,17 +27,17 @@
                 <i class="bx bx-calendar" />
                 <p>Reports</p>
             </div>
-            <div class="menu_item" on:click={function(){goto("/appointments")}}>
+            <!-- <div class="menu_item" on:click={function(){goto("/appointments")}}>
                 <i class="bx bx-file-blank" />
                 <p>Appointments</p>
-            </div>
+            </div> -->
             <div class="menu_item" on:click={function(){goto("/profile")}}>
                 <i class="bx bx-user-circle" />
                 <p>Profile</p>
             </div>
-            <div class="menu_item" on:click={function(){goto("/settings")}}>
-                <i class="bx bx-cog" />
-                <p>Settings</p>
+            <div class="menu_item" on:click={async function(){await authHandlers.logout()}}>
+                <i class="bx bx-log-out" />
+                <p>Log Out</p>
             </div>
         </div>
     </div>
@@ -90,17 +92,30 @@
         font-family: "Nunito", sans-serif;
         color: black;
     }
-
     :root {
         --grey-color: #b1adad;
         --border-color: #e7e8ea;
     }
-
+    #title_logo:hover{
+        background-color: transparent;
+    }
+    #title_logo{
+        font-size:26px;
+        color:black;
+    }
+    #title_logo_small{
+        display: none;
+    }
     .container {
         display: flex;
         height: 99vh;
         letter-spacing: 1px;
         width:100vw;
+        background-image: linear-gradient(
+                rgba(206, 252, 241, 0.9),
+                rgba(244, 222, 255, 0.9)
+            ),
+            url(bgvev1.png);
     }
 
     /*----- Left SideBar -----*/
@@ -113,6 +128,9 @@
         transition: all 0.3s ease-in-out;
         height:100%;
         border-right:#000 2px solid;
+        display:flex;
+        flex-direction: column;
+        align-items: center;
     }
 
     .left_sidebar .close_hamburger_btn {
@@ -128,9 +146,8 @@
     .logo {
         min-width:50px;
         min-height:50px;
-        width:3vw;
-        height:3vw;
-        background-size: cover;
+        background-size:contain;
+        background-position: center;
         background-repeat: no-repeat;
         background-image: url("/favicon.png");
     }
@@ -142,6 +159,7 @@
         color: var(--grey-color);
         padding: 20px 30px;
         cursor: pointer;
+        width:20vw;
     }
 
     /*----- Main Content -----*/
@@ -154,7 +172,6 @@
         transition: all 0.3s ease-in-out;
         overflow-y: scroll;
     }
-
     /*----- Right SideBar -----*/
 
     .right_sidebar {
@@ -244,18 +261,40 @@
         font-size: 14px;
         margin-left: 12px;
     }
-    @media screen and (max-width:500px){
+    @media print {
+        .left_sidebar{
+            display: none;
+        }
+        .right_sidebar{
+            display: none;
+        }
+        body {
+            height:max-content;
+        }
+        .main_content{
+            height:max-content;
+            width:100%;
+        }
+    }
+    @media screen and (max-width:940px){
         .menu_item p{
             display:none;
-        }
-        .logo{
-            background-image: url("favicon.png");
         }
         .right_sidebar {
             display:none;
         }
         .main_content{
             width:80vw;
+        }
+        .left_sidebar .menu_items .menu_item{
+            width:90px;
+        }
+        #title_logo_small{
+            display:block;
+        }
+        #title_logo{
+            display:none;
+            background-image: url("favicon.png");
         }
     }
 </style>
