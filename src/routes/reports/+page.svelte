@@ -40,14 +40,22 @@
         }
 	});
     async function getChatList() {
-        const q = query(
+        let q;
+        if (userData.is_doctor == true){
+            q = query(
+            collection(db, "reports"),
+            where("allowed_doctors", "array-contains", userID),orderBy("created", "desc"),limit(10)
+        );
+        }else{
+            q = query(
             collection(db, "reports"),
             where("patient_id", "==", userID),orderBy("created", "desc"),limit(10)
         );
+        }
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
             let b = doc.data();
-            reportList.push({id:doc.id,patient_name:b.patient_info.name,created:b.created.seconds*1000,severity:b.severity,symptoms:b.symptoms})
+            reportList.push({id:doc.id,patient_name:b.patient_info.name,created:b.created.seconds*1000,severity:b.severity,symptoms:b.symptoms,doctor_name:b.doctor_name})
         });
         dataStore.update(function (state){return {...state,reportlist:reportList}})
     }
@@ -60,8 +68,12 @@
             <div style = "display:flex;flex-direction:column">
                 <!-- <span style="font-size: medium;">Severity: {elem.severity}</span>
                 <span style="font-size: medium;">Symptoms {elem.symptoms}</span> -->
-                <span style="font-size: medium;">Chat Date: {(new Date(elem.created)).toLocaleString()}</span>
-                
+                <span style="font-size: medium;">Report Date: {(new Date(elem.created)).toLocaleString()}</span>
+                {#if userData.is_doctor}
+                    <span style="font-size: medium;">Patient: {elem.patient_name}</span>
+                {:else}
+                    <span style="font-size: medium;">Doctor: {elem.doctor_name}</span>
+                {/if}
             </div>
         </div>
     {/each}

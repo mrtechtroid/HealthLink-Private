@@ -138,6 +138,7 @@
         });
         await updateDoc(doc(db, "reports", reportID), {
             allowed_doctors: arrayUnion(docID),
+            doctor_name:docName,
         });
         goto("/r/chat~" + docRef.id);
     }
@@ -148,13 +149,14 @@
             });
     }
     async function askHealthCareProf() {
-        if (chatInfo != {} && chatInfo.chat_ended) {
+        if (chatInfo != {} && chatInfo.chat_ended && reportID != "") {
             const docRef = doc(db, "reports", chatInfo.report);
             const docSnap = await getDoc(docRef);
             if (docSnap.exists()) {
                 let reportDetails = docSnap.data();
                 const q = query(
                     collection(db, "users"),
+                    where("is_doctor", "==", true),
                     where(
                         "doctor_roles",
                         "array-contains",
@@ -162,7 +164,8 @@
                     ),
                     limit(3)
                 );
-                const querySnapshot = await getDocs(q);
+                try{
+                    const querySnapshot = await getDocs(q);
                 querySnapshot.forEach((doc) => {
                     let b = doc.data();
                     doctorList.push({
@@ -173,6 +176,9 @@
                     });
                 });
                 doctorList = doctorList;
+                }catch(e){
+                    console.log(e)
+                }
             } else {
                 console.log("No such document!");
             }
@@ -186,6 +192,11 @@
                     report_num = i;
                     break;
                 }
+            }
+            if (["General practitioner","Neurologist","Surgeon","Dermatologist","Psychiatrist","Pediatrician","Cardiologist","Radiologist","Oncologist","Urologist","Orthopedic surgeon","Pathologist","Internal medicine","Ophthalmologist","Rheumatologist","Endocrinologist","Gastroenterologist","Ophthalmology","Neurology","Family medicine","Pediatrics","Pulmonologist","Otolaryngologist",].includes(db_messages[report_num].doctor_type)){
+
+            }else{
+                db_messages[report_num].doctor_type = "General practitioner"
             }
             const docRef = await addDoc(collection(db, "reports"), {
                 patient_id: authStoreVariable.uid,
@@ -208,11 +219,12 @@
                 summary: db_messages[report_num].summary,
                 severity: db_messages[report_num].severity,
                 doctor_type: db_messages[report_num].doctor_type,
+                doctor_name:"CHATBOT",
                 predicted_illness: "",
                 other_illness: "",
                 created: serverTimestamp(),
                 last_updated: serverTimestamp(),
-                final_verdict: {},
+                final_verdict: {stage:"Preliminary ChatBot Examination",prescription:""},
                 attachments: "",
             });
             reportID = docRef.id;
@@ -237,7 +249,7 @@
                 count_predicted_illness += 1;
             }
             if (db_messages[i].role == "assistant" &&
-                db_messages[i].predicted_illness == "severe"){
+                db_messages[i].severity == "severe"){
                     askHealthCareProf();
                     return false;
                 }
@@ -305,6 +317,7 @@
         await updateDoc(doc(db, "chat", chatID), {
             db_messages: chatInfo.db_messages,
         });
+        check_chatBot(chatInfo.db_messages)
     }
     async function runConversation(gh) {
         let db_messages = [...gh];
