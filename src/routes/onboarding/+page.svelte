@@ -172,7 +172,7 @@
       </div>
     </div>
   </div>
-
+</div>
   <!--previous disease-->
 {:else if x == 3}
   <div class="disease">

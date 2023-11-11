@@ -83,7 +83,7 @@
           profile_last_updated: serverTimestamp(),
         });
       }
-      goto("/r/dashboard")
+      goto("/onboarding")
       // Implement code for getting user details and store it in `dataStore.basicinfo`
     });
   });
