@@ -12,7 +12,6 @@
       <button type="button">CHAT NOW</button>
       <button type="button">BOOK AN APPOINTMENT</button>
     </div>
-  </div>
 </div>
 
 <div class="pg2">

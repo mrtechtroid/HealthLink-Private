@@ -9,7 +9,7 @@ export const authStore = writable({
     data: {}
 })
 export let dataStore = writable({
-    basicinfo:{},
+    basicinfo:{name:"Doctor John",dob:"12/18/2023"},
     reportlist:[],
     conversationlist:[],
 })
