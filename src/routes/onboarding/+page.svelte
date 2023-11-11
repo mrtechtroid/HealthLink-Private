@@ -37,8 +37,8 @@
   let x = 1;
 
   let name = "";
-  let height = 0;
-  let weight = 0;
+  let height = null;
+  let weight = null;
   let dob = "";
   let gender = "";
   let mobileno = null;
@@ -82,12 +82,6 @@
       <button
         type="submit"
         on:click={function () {
-          decx(1);
-        }}>Back</button
-      >
-      <button
-        type="submit"
-        on:click={function () {
           setx(2);
         }}>Next</button
       >
@@ -96,7 +90,7 @@
   <!--enter gender ,ht,wt-->
 {:else if x == 2}
   <div class="gender_button-container">
-    <p>Select gender</p>
+    <h1>Select gender</h1>
     <input type="radio" bind:value={gender} id="gender" />
     <span class="gender-button"
       ><img src="/undraw_Female_avatar_efig.png" alt="female" /></span
@@ -125,7 +119,7 @@
       <button
         type="submit"
         on:click={function () {
-          decx(2);
+          decx(1);
         }}>Back</button
       >
       <button
@@ -174,6 +168,7 @@
       </p>
     </div>
     <label>Others:<input type="text" bind:value={past_disease} /></label>
+
     <div class="merebutton">
       <button
         type="submit"
@@ -286,4 +281,5 @@
   .medall {
     color: black;
   }
+  /*overall ig*/
 </style>

@@ -1,20 +1,20 @@
 <div class="banner">
-    <div class="navbar">
-        <img src="healthlink.png" class="logo" />
-        <ul>
-            <li><a href="./login">Log in</a></li>
-            <li><a href="./register">Sign up</a></li>
-        </ul>
-    </div>
-    <div class="content">
-        <div><span>Affordable health-care<br>at your Fingertips</span></div>
-        <div>
-            <button type="button">CHAT NOW</button>
-            <button type="button">BOOK AN APPOINTMENT</button>
-        </div>
+  <div class="navbar">
+    <img src="healthlink.png" class="logo" />
+    <ul>
+      <li><a href="./login">Log in</a></li>
+      <li><a href="./register">Sign up</a></li>
+    </ul>
+  </div>
+  <div class="content">
+    <div><span>Affordable health-care<br />at your Fingertips</span></div>
+    <div>
+      <button type="button">CHAT NOW</button>
+      <button type="button">BOOK AN APPOINTMENT</button>
     </div>
   </div>
 </div>
+
 <div class="pg2">
   <h1>How do we do it?</h1>
   <div class="feature">
