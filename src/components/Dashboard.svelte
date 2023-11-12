@@ -48,7 +48,7 @@
         <div class="profile">
             <div class="img">
                 <img
-                    src="https://i.postimg.cc/g2M32zcz/image.png "
+                    src={dataLocal.profile_picture}
                     alt="studentImg "
                 />
             </div>
@@ -108,7 +108,7 @@
     }
     .container {
         display: flex;
-        height: 99vh;
+        height: 100%;
         letter-spacing: 1px;
         width:100vw;
         background-image: linear-gradient(
@@ -181,6 +181,8 @@
         align-self: flex-start;
         transition: all 0.3s ease-in-out;
         margin:5px;
+        margin-top:0px;
+        margin-bottom: 0px;
         padding-left: 5px;
         height:100%;
         min-width:200px;

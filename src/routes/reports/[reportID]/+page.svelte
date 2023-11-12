@@ -4,10 +4,15 @@
     import { page } from "$app/stores";
     import { GoogleAuthProvider } from "firebase/auth";
     import { goto } from "$app/navigation";
+    import { authStore,dataStore } from "../../../store/store";
     const db = getFirestore();
     let reportData = undefined
     $: reportData = reportData
     let reportID = $page.params.reportID;
+    let userData;
+    const unsubscribe2 = dataStore.subscribe((value) => {
+        userData = value.basicinfo
+	});
     async function getData() {
         const reportInst = doc(db, "reports", reportID);
         const reportDet = await getDoc(reportInst);
@@ -60,7 +65,9 @@
         </table>
         <div style = "display:flex;flex-direction:row;align-items:center;justify-content:space-evenly">
             <button class = "msger-send-btn" on:click={function(){print()}}>Print Report</button>
+            {#if userData.is_doctor == true}
             <button class = "msger-send-btn" on:click={function(){goto("/r/edit_reports~"+$page.params.reportID)}}>Edit Report</button>
+            {/if}
         </div>
         {/if}
     </div>

@@ -36,10 +36,10 @@
 		reportList = value.reportlist
         userData = value.basicinfo
         if (reportList.length == 0 && userID != undefined){
-            getChatList()
+            getReportList()
         }
 	});
-    async function getChatList() {
+    async function getReportList() {
         let q;
         if (userData.is_doctor == true){
             q = query(

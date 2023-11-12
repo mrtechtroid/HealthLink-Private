@@ -1,3 +1,6 @@
+<svelte:head>
+  <title>HealthLink</title>
+</svelte:head>
 <script>
   import { onMount } from "svelte";
   import { db } from "../lib/firebase/firebase";
@@ -83,7 +86,7 @@
           profile_last_updated: serverTimestamp(),
         });
       }
-      goto("/onboarding")
+      // goto("/onboarding")
       // Implement code for getting user details and store it in `dataStore.basicinfo`
     });
   });
@@ -99,11 +102,11 @@
     color: white;
     width: 100vw;
     min-height: 100vh;
+    height:100vh;
     min-width: 300px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     font-family: Nunito;
   }
 </style>

@@ -25,8 +25,16 @@
         query,
         where,
     } from "firebase/firestore";
-    import { onDestroy } from "svelte";
+    import { onMount,onDestroy } from "svelte";
+    const scrollToBottom12 = node => {
+    const scroll = () => node.scroll({
+        top: node.scrollHeight,
+        behavior: 'smooth',
+    });
+    scroll();
 
+    return { update: scroll }
+};
     const openai = new OpenAI({
         apiKey: "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",
         dangerouslyAllowBrowser: true,
@@ -119,7 +127,7 @@
         });
         goto("/r/videocall~"+chatID+mID)
     }
-    async function createNewConversation(docID, docName) {
+    async function createNewConversation(docID, docName,docPic) {
         const docRef = await addDoc(collection(db, "chat"), {
             chat_ended: false,
             date_started: serverTimestamp(),
@@ -128,6 +136,8 @@
             doctor_id: docID,
             patient_name: dataStoreVariable.name,
             doctor_name: docName,
+            doctor_profile_picture:docPic,
+            patient_profile_picture:dataStoreVariable.profile_picture,
             is_chatbot: false,
             patient_id: authStoreVariable.uid,
             report: reportID,
@@ -172,6 +182,7 @@
                         role: "doctor",
                         doctor_role: b.doctor_roles[0],
                         name: b.name,
+                        profile_picture:b.profile_picture,
                         id: doc.id,
                     });
                 });
@@ -450,7 +461,7 @@
                 >
             {/if}
         </div>
-        <main class="msger-chat" id="msger-chat" bind:this={msgrchat} on:change={function(){scrollToBottom(msgrchat)}}>
+        <main class="msger-chat" id="msger-chat" bind:this={msgrchat} use:scrollToBottom12 = {db_messages}>
             {#if db_messages != undefined}
                 {#if db_messages.length <= 1}
                     <div>Say Hi to start the Conversation.</div>
@@ -610,7 +621,7 @@
                                     >{item.doctor_role}</span
                                 >
                                 <img
-                                    src="https://i.pravatar.cc/300"
+                                    src={item.profile_picture}
                                     alt="doc_img"
                                     style="width:140px;height:140px;"
                                 />
@@ -619,7 +630,8 @@
                                     on:click={function () {
                                         createNewConversation(
                                             item.id,
-                                            item.name
+                                            item.name,
+                                            item.profile_picture
                                         );
                                     }}>Chat with Doctor</button
                                 >
