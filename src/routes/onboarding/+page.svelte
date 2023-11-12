@@ -112,34 +112,7 @@
       ><img src="/undraw_Male_avatar_g98d.png" alt="male" width = "150" height = "150" /></span
     >
   </div>
-  <div class="bodyratio">
-    <label
-      >Height in cms:<input
-        bind:value={height}
-        type="text"
-        placeholder="Enter your height"
-      /></label
-    >
-    <label
-      >Weight in kilos:<input
-        bind:value={weight}
-        type="text"
-        placeholder="Enter your weight"
-      /></label
-    >
-    <div class="merebutton">
-      <button
-        type="submit"
-        on:click={function () {
-          decx(1);
-        }}>Back</button
-      >
-      <input type="radio" bind:value={gender} id="gender" />
-      <span class="gender-button"
-        ><img src="/undraw_Male_avatar_g98d.png" alt="male" width = "150" height = "150" /></span
-      >
-    </div>
-    <br><br><br>
+ 
     <div class="bodyratio">
       <label
         >Height in cms:<input
@@ -172,7 +145,6 @@
       </div>
     </div>
   </div>
-</div>
   <!--previous disease-->
 {:else if x == 3}
   <div class="disease">
