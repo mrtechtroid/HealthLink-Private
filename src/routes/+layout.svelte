@@ -27,7 +27,7 @@
         query,
         where,
     } from "firebase/firestore";
-  const nonAuthRoutes = ["/", "/aboutus", "/contactus", "/login", "/register"];
+  const nonAuthRoutes = ["/", "/aboutus", "/contactus", "/login", "/register","/terms"];
   let authStoreVariable,dataStoreVariable
   const unsubscribe2 = authStore.subscribe((value) => {
         if (value.user!={email:"test@test.cc",uid:"RANDOMID"}){
