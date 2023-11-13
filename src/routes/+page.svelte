@@ -129,22 +129,7 @@
 <div class="footer">
   <span>Copyright 2023-24 HealthLink</span>
   <span>Built for ByteSynergy 2.0</span>
-  <p style = "font-size:small;color:aliceblue;width:80%;">
-    HealthLink takes the privacy and security of your health data seriously. By
-    using our platform, you acknowledge and consent to the collection of certain
-    health-related information to provide you with personalized and efficient
-    healthcare services. We adhere to stringent data protection standards and
-    comply with applicable healthcare laws. Please be aware that, in certain
-    instances, anonymized and aggregated data may be shared with third-party
-    partners for research and analytical purposes. However, rest assured that
-    any information shared will be in compliance with relevant privacy laws and
-    regulations. Your trust is important to us, and we are committed to
-    safeguarding your sensitive information. For a comprehensive understanding
-    of our data practices, please refer to our Privacy Policy. If you have any
-    concerns or questions, feel free to contact our support team. HealthLink is
-    dedicated to providing you with accessible and high-quality healthcare,
-    placing your well-being at the forefront of our services.
-  </p>
+  <a href = "/terms">Terms of Service & Privacy Policy</a>
 </div>
 
 <style>

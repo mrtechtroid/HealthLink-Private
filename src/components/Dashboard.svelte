@@ -7,6 +7,7 @@
     const unsubscribe = dataStore.subscribe((value) => {
         dataLocal = value.basicinfo
     });
+    export let d_location = ""
 
 </script>
 <div class="container">
