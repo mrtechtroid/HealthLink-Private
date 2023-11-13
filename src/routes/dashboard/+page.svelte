@@ -37,11 +37,12 @@
 	});
   const unsubscribe3 = dataStore.subscribe((value) => {
         if (value.basicinfo!={}){
-          dataStoreVariable = value.basicinfo
+          dataStoreVariable = value
         }else{
-          dataStoreVariable = {}
+          dataStoreVariable = {basicinfo:{},reportlist:[],conversationlist:[]}
         }
 	});
+    $: dataStoreVariable = dataStoreVariable
     async function createChatbotChat() {
         const docRef = await addDoc(collection(db, "chat"), {
             chat_ended: false,
@@ -59,7 +60,7 @@
             ],
             doctor_id: "CHATBOT",
             doctor_name: "CHATBOT",
-            patient_name: dataStoreVariable.name,
+            patient_name: dataStoreVariable.basicinfo.name,
             is_chatbot: true,
             patient_id: authStoreVariable.uid,
             doctor_chosen: false,
@@ -74,10 +75,16 @@
             style="height:20%;display:flex;flex-direction:column;justify-content:center;"
         >
             <span>Welcome Back,</span>
-            <span style="font-size:25px;font-weight:bold;">{dataStoreVariable.name}</span>
+            <span style="font-size:25px;font-weight:bold;">{dataStoreVariable.basicinfo.name}</span>
         </div>
         <div style="display: flex;flex-direction:row;flex-wrap:wrap;">
             <div class = "click_btn" style="background-color: #1ebfc4;" on:click={createChatbotChat}><i class='bx bx-plus-medical'></i><span>Chat with MediBot</span></div>
+            {#if dataStoreVariable.reportlist.length !=0}
+                <div class = "click_btn" style="background-color: #E91E63;" on:click={function(){goto("/r/reports~"+dataStoreVariable.reportlist[0].id)}}><i class='bx bxs-report'></i><span>Latest Report</span></div>
+            {/if}
+            {#if dataStoreVariable.conversationlist.length !=0}
+                <div class = "click_btn" style="background-color: #F44336;" on:click={function(){goto("/r/chat~"+dataStoreVariable.conversationlist[0].id)}}><i class='bx bxs-message-dots'></i><span>Most Recent Conversation</span></div>
+            {/if}
         </div>
         <HealthTip></HealthTip>
     </Dashboard>
