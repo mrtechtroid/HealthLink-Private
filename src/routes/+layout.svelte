@@ -28,7 +28,7 @@
         where,
     } from "firebase/firestore";
   const nonAuthRoutes = ["/", "/aboutus", "/contactus", "/login", "/register","/terms"];
-  let authStoreVariable,dataStoreVariable
+  let authStoreVariable,dataStoreVariable,reportList,conversationList,user
   const unsubscribe2 = authStore.subscribe((value) => {
         if (value.user!={email:"test@test.cc",uid:"RANDOMID"}){
           authStoreVariable = value.user
@@ -39,12 +39,55 @@
   const unsubscribe3 = dataStore.subscribe((value) => {
         if (value.basicinfo!={}){
           dataStoreVariable = value
+          reportList = value.reportlist
+          conversationList = value.conversationlist
         }else{
           dataStoreVariable = {}
         }
 	});
   let unsub
+  async function getChatList() {
+        let q
+        if (dataStoreVariable.basicinfo.is_doctor == true){
+            q = query(
+            collection(db, "chat"),
+            where("doctor_id", "==", authStoreVariable.uid),orderBy("date_started", "desc"),limit(10)
+        );
+        }else{
+            q = query(
+            collection(db, "chat"),
+            where("patient_id", "==", authStoreVariable.uid),orderBy("date_started", "desc"),limit(10)
+        );
+        }
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+            let b = doc.data();
+            conversationList.push({id:doc.id,is_chatbot:b.is_chatbot,date_started:b.date_started.seconds*1000,date_ended:b.date_ended.seconds*1000,doctor_id:b.doctor_id,doctor_name:b.doctor_name,patient_name:b.patient_name})
+        });
+        dataStore.update(function (state){return {...state,conversationlist:conversationList}})
+    }
+    async function getReportList() {
+        let q;
+        if (dataStoreVariable.basicinfo.is_doctor == true){
+            q = query(
+            collection(db, "reports"),
+            where("allowed_doctors", "array-contains", authStoreVariable.uid),orderBy("created", "desc"),limit(10)
+        );
+        }else{
+            q = query(
+            collection(db, "reports"),
+            where("patient_id", "==", authStoreVariable.uid),orderBy("created", "desc"),limit(10)
+        );
+        }
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+            let b = doc.data();
+            reportList.push({id:doc.id,patient_name:b.patient_info.name,created:b.created.seconds*1000,severity:b.severity,symptoms:b.symptoms,doctor_name:b.doctor_name})
+        });
+        dataStore.update(function (state){return {...state,reportlist:reportList}})
+    }
   onMount(function () {
+    
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
       const currentPath = window.location.pathname;
       // If user is logged out OR User is not in a page which doesnt require authentication. Redirect him
@@ -66,6 +109,12 @@
         unsub = onSnapshot(doc(db, "users", authStoreVariable.uid), (doc) => {
           dataStore.update(function (state){return {...state,basicinfo:doc.data()}})
         });
+        if (conversationList.length == 0){
+            getChatList()
+        }
+        if (reportList.length == 0){
+            getReportList()
+        }
       } else {
         // docSnap.data() will be undefined in this case
         await setDoc(doc(db, "users", user.uid), {

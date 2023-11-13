@@ -163,7 +163,7 @@
                 rgba(206, 252, 241, 0.9),
                 rgba(244, 222, 255, 0.9)
             ),
-            url(bgvev1.png);
+            url("bgvev1.png");
   }
 
   h1 {

@@ -116,7 +116,7 @@
                 rgba(206, 252, 241, 0.9),
                 rgba(244, 222, 255, 0.9)
             ),
-            url(bgvev1.png);
+            url("bgvev1.png");
     }
 
     /*----- Left SideBar -----*/
@@ -150,7 +150,7 @@
         background-size:contain;
         background-position: center;
         background-repeat: no-repeat;
-        background-image: url("/favicon.png");
+        background-image: url("favicon.png");
     }
     .left_sidebar .menu_items .menu_item {
         display: flex;
@@ -294,9 +294,14 @@
         }
         #title_logo_small{
             display:block;
+            background-image: url("favicon.png");
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            margin-top:5px;
         }
         #title_logo{
-            display:none;
+            display:none; 
             background-image: url("favicon.png");
         }
     }
