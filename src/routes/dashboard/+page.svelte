@@ -77,7 +77,7 @@
             <span>Welcome Back,</span>
             <span style="font-size:25px;font-weight:bold;">{dataStoreVariable.basicinfo.name}</span>
         </div>
-        <div style="display: flex;flex-direction:row;flex-wrap:wrap;">
+        <div style="display: flex;flex-direction:row;flex-wrap:wrap;align-items:center;">
             <div class = "click_btn" style="background-color: #1ebfc4;" on:click={createChatbotChat}><i class='bx bx-plus-medical'></i><span>Chat with MediBot</span></div>
             {#if dataStoreVariable.reportlist.length !=0}
                 <div class = "click_btn" style="background-color: #E91E63;" on:click={function(){goto("/r/reports~"+dataStoreVariable.reportlist[0].id)}}><i class='bx bxs-report'></i><span>Latest Report</span></div>

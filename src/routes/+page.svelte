@@ -89,13 +89,13 @@
       <div><img src="pat_1.png" class="test_img" /></div>
       <div><h3>Julia</h3></div>
       <div>
-        <h4>
+        <p>
           Moving to a new country can be overwhelming, especially when it comes
           to healthcare. HealthLink bridged the gap for me. I consulted with a
           doctor who not only understood my health concerns but also guided me
           through the local healthcare system. HealthLink truly made me feel at
           home, even miles away.
-        </h4>
+        </p>
       </div>
     </div>
     <div class="person">
@@ -116,12 +116,12 @@
       <div><img src="pat_3.png" class="test_img" /></div>
       <div><h3>Aishwariya</h3></div>
       <div>
-        <h4>
+        <p>
           Being a working professional and a mom, time is a precious commodity.
           HealthLink has been a lifesaver for me. I connected with a wonderful
           gynecologist who provided excellent guidance and support during my
           pregnancy. It's like having a trusted doctor at my fingertips.
-        </h4>
+        </p>
       </div>
     </div>
   </div>
@@ -389,8 +389,9 @@
     margin-bottom: 3vh;
     text-align: left;
   }
-  .person h4 {
+  .person h4,p {
     text-align: center;
+    color: #009688;
     /* margin-left: 3%; */
   }
   .person h3 {

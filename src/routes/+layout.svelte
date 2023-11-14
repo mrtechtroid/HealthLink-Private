@@ -6,7 +6,8 @@
   import { db } from "../lib/firebase/firebase";
   import { auth } from "../lib/firebase/firebase";
   import { goto } from "$app/navigation";
-  import { authStore, dataStore } from "../store/store";
+  import { writable, get } from 'svelte/store';
+  import { authStore, dataStore , extraStore} from "../store/store";
   import {
         getFirestore,
         orderBy,
@@ -26,6 +27,7 @@
         getDoc,
         query,
         where,
+        getCountFromServer,
     } from "firebase/firestore";
   const nonAuthRoutes = ["/", "/aboutus", "/contactus", "/login", "/register","/terms"];
   let authStoreVariable,dataStoreVariable,reportList,conversationList,user
@@ -86,6 +88,34 @@
         });
         dataStore.update(function (state){return {...state,reportlist:reportList}})
     }
+  async function getReportChatCount(){
+    let q;
+      if (dataStoreVariable.basicinfo.is_doctor == true){
+            q = query(
+            collection(db, "reports"),
+            where("allowed_doctors", "array-contains", authStoreVariable.uid),orderBy("created", "desc"),limit(10)
+      );
+      }else{
+            q = query(
+            collection(db, "reports"),
+            where("patient_id", "==", authStoreVariable.uid),orderBy("created", "desc"),limit(10)
+        );
+        }
+    const snapshot = await getCountFromServer(q);
+    if (dataStoreVariable.basicinfo.is_doctor == true){
+            q = query(
+            collection(db, "chat"),
+            where("doctor_id", "==", authStoreVariable.uid),orderBy("date_started", "desc"),limit(10)
+        );
+        }else{
+            q = query(
+            collection(db, "chat"),
+            where("patient_id", "==", authStoreVariable.uid),orderBy("date_started", "desc"),limit(10)
+        );
+        }
+    const snapshot2 = await getCountFromServer(q);
+    extraStore.update(function(state){return {chatcount:snapshot2.data().count,reportcount:snapshot.data().count,retrivedresource:true}})
+  }
   onMount(function () {
     
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
@@ -114,6 +144,9 @@
         }
         if (reportList.length == 0){
             getReportList()
+        }
+        if (get(extraStore).retrivedresource == false){
+          getReportChatCount()
         }
       } else {
         // docSnap.data() will be undefined in this case
