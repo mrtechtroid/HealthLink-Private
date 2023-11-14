@@ -11,7 +11,11 @@ export let dataStore = writable({
     reportlist:[],
     conversationlist:[],
 })
-
+export let extraStore = writable({
+    chatcount: 0,
+    retrivedresource:false,
+    reportcount: 0,
+})
 export const authHandlers = {
     signup: async (email, pass) => {
     await createUserWithEmailAndPassword (auth, email, pass)

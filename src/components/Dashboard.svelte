@@ -1,14 +1,19 @@
 <script>
     import { page } from "$app/stores";
     import { db } from "../lib/firebase/firebase"
-    import { authStore,dataStore,authHandlers } from "../store/store";
+    import { authStore,dataStore,authHandlers,extraStore } from "../store/store";
     import { goto } from "$app/navigation";
+    import { get } from "svelte/store"
     let dataLocal = null
     const unsubscribe = dataStore.subscribe((value) => {
         dataLocal = value.basicinfo
     });
+    let extraLocal = null
+    const unsubscribe2 = extraStore.subscribe((value) => {
+        extraLocal = value
+    });
     export let d_location = ""
-
+    
 </script>
 <div class="container">
     <div class="left_sidebar">
@@ -57,31 +62,10 @@
                 <p>{dataLocal.name}</p>
                 <span>{#if dataLocal.is_doctor}Doctor{:else}User{/if}</span>
             </div>
-            <div class="other_info">
-                <div class="about">
-                    <h4>Past/Current Illnesses</h4>
-                    <p>
-                        {#if dataLocal.past_disease != undefined}
-                        {#each dataLocal.past_disease as item}
-                            {item},
-                        {/each}
-                        {/if}
-                    </p>
-                </div>
-                <div class="gender">
-                    <h4>Gender</h4>
-                    <p>{dataLocal.gender}</p>
-                </div>
-                <div class="dob">
-                    <h4>DOB</h4>
-                    <p>{dataLocal.dob}</p>
-                </div>
-                <div class="address">
-                    <h4>Address</h4>
-                    <p>{dataLocal.place}</p>
-                </div>
-            </div>
         </div>
+        <span>Key Statistics</span>
+        <div class = "click_btn" style="background-color: #1ebfc4;color:white"><span>No. of Conversations<br>{extraLocal.chatcount}</span></div>
+        <div class = "click_btn" style="background-color: #E91E63;color:white"><span>No. of Reports<br>{extraLocal.reportcount}</span></div>
     </div>
 </div>
 
@@ -92,6 +76,21 @@
         box-sizing: border-box;
         font-family: "Nunito", sans-serif;
         color: black;
+    }
+    .click_btn {
+        width: 80%;
+        height: max-content;
+        min-height: 50px;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
+        border-radius: 10px;
+        cursor:pointer;
+        margin:10px;
+    }
+    .click_btn span{
+        color:white;
     }
     :root {
         --grey-color: #b1adad;
@@ -188,6 +187,9 @@
         height:100%;
         min-width:200px;
         border-left:#000 2px solid;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
     .profile {
