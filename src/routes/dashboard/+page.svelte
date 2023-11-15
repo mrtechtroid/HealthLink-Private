@@ -36,7 +36,7 @@
         }
 	});
   const unsubscribe3 = dataStore.subscribe((value) => {
-        if (value.basicinfo!={}){
+        if (Object.keys(value.basicinfo).length != 0){
           dataStoreVariable = value
         }else{
           dataStoreVariable = {basicinfo:{},reportlist:[],conversationlist:[]}
