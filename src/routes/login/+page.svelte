@@ -1,5 +1,6 @@
 <script>
   import { authHandlers } from "../../store/store";
+  import { fade,blur } from 'svelte/transition';
   let email = "";
   let password = "";
   let error = false;
@@ -100,7 +101,7 @@
                 rgba(206, 252, 241, 0.9),
                 rgba(244, 222, 255, 0.9)
             ),
-            url("bgvev1.png");
+            url("$lib/images/bgvev1.png");
   }
 
   h1 {

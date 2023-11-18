@@ -36,6 +36,7 @@
   import { goto } from "$app/navigation";
   import { authStore, dataStore } from "../../store/store";
   import { db } from "../../lib/firebase/firebase";
+  import { fade,blur } from 'svelte/transition';
   let authStoreVariable, dataStoreVariable;
   $: dataStoreVariable = dataStoreVariable;
   const unsubscribe2 = authStore.subscribe((value) => {
@@ -80,7 +81,7 @@
 <!--enter name , dob, mobileno-->
 <div id = "outer">
 {#if x == 1}
-  <div class="basic">
+  <div class="basic" out:blur={{ duration: 0 }} in:blur={{ duration: 300 }}>
     <h1>Tell us a Bit <br>about yourself</h1>
     <br>
     <label class="body_label">
@@ -111,7 +112,7 @@
   </div>
   <!--enter gender ,ht,wt-->
 {:else if x == 2}
-  <div class = "page2">
+  <div class = "page2" out:blur={{ duration: 0 }} in:blur={{ duration: 300 }}>
     <h1>Some Basic Details</h1>
   <div class="gender_button-container">
     <input type="radio" bind:group={dataStoreVariable.gender} value="Female" id="gender_female"/>
@@ -157,7 +158,7 @@
   </div>
   <!--previous disease-->
 {:else if x == 3}
-  <div class="disease">
+  <div class="disease" out:blur={{ duration: 0 }} in:blur={{ duration: 300 }}> 
     <h1>Any Past/Current Major Health Problems?</h1>
     <div style="display: flex;flex-direction:row;flex-wrap:wrap;align-items:center;">
       <div>
@@ -216,7 +217,7 @@
 
   <!--med and allergy-->
 {:else if x == 4}
-  <div class="medall">
+  <div class="medall" out:blur={{ duration: 0 }} in:blur={{ duration: 300 }}>
     <h1>Allergies</h1>
     <div style="display: flex;flex-direction:row;flex-wrap:wrap;align-items:center;">
       <div>
@@ -264,7 +265,7 @@
       </div>
   </div>
 {:else if x == 5}
-<div class="accepttos">
+<div class="accepttos" out:blur={{ duration: 0 }} in:blur={{ duration: 300 }}>
   <h1>Accept TOS</h1>
   <p>By Clicking Accept, you agree that you accept our Terms of Service and Privacy Policy
   </p>

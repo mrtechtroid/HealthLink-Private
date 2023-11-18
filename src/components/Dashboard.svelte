@@ -4,6 +4,7 @@
     import { authStore,dataStore,authHandlers,extraStore } from "../store/store";
     import { goto } from "$app/navigation";
     import { get } from "svelte/store"
+    import { fade,blur } from 'svelte/transition';
     let dataLocal = null
     const unsubscribe = dataStore.subscribe((value) => {
         dataLocal = value.basicinfo
@@ -12,7 +13,6 @@
     const unsubscribe2 = extraStore.subscribe((value) => {
         extraLocal = value
     });
-    export let d_location = ""
     
 </script>
 <div class="container">
@@ -20,16 +20,16 @@
         <div class="menu_items">
             <div class="menu_item" id = "title_logo">HealthLink</div>
             <div class="menu_item" id = "title_logo_small"></div>
-            <div class="menu_item" on:click={function(){goto("/dashboard")}}>
+            <div class="menu_item"  on:click={function(){goto("/dashboard")}} chosen = {$page.url.pathname.split("/")[1]=="dashboard"? "true":"false"}>
                 <i class="bx bxs-dashboard" />
                 <p>Dashboard</p>
             </div>
-            <div class="menu_item" on:click={function(){goto("/chat")}}>
+            <div class="menu_item" on:click={function(){goto("/chat")}} chosen = {$page.url.pathname.split("/")[1]=="chat"? "true":"false"}>
                 <i class="bx bx-message-rounded-dots" />
                 <p>Conversations</p>
                 <i class="fa-regular fa-circle-2" />
             </div>
-            <div class="menu_item" on:click={function(){goto("/reports")}}>
+            <div class="menu_item" on:click={function(){goto("/reports")}} chosen = {$page.url.pathname.split("/")[1]=="reports" || $page.url.pathname.split("/")[1]=="edit_reports"? "true":"false"}>
                 <i class="bx bx-calendar" />
                 <p>Reports</p>
             </div>
@@ -37,7 +37,7 @@
                 <i class="bx bx-file-blank" />
                 <p>Appointments</p>
             </div> -->
-            <div class="menu_item" on:click={function(){goto("/profile")}}>
+            <div class="menu_item" on:click={function(){goto("/profile")}} chosen = {$page.url.pathname.split("/")[1]=="profile"? "true":"false"}>
                 <i class="bx bx-user-circle" />
                 <p>Profile</p>
             </div>
@@ -47,7 +47,7 @@
             </div>
         </div>
     </div>
-    <div class="main_content">
+    <div class="main_content" out:blur={{ duration: 0 }} in:blur={{ duration: 300 }}>
         <slot/>
     </div>
     <div class="right_sidebar">
@@ -115,7 +115,7 @@
                 rgba(206, 252, 241, 0.9),
                 rgba(244, 222, 255, 0.9)
             ),
-            url("bgvev1.png");
+            url("$lib/images/bgvev1.png");
     }
 
     /*----- Left SideBar -----*/
@@ -149,7 +149,7 @@
         background-size:contain;
         background-position: center;
         background-repeat: no-repeat;
-        background-image: url("favicon.png");
+        background-image: url("$lib/images/favicon.png");
     }
     .left_sidebar .menu_items .menu_item {
         display: flex;
@@ -281,6 +281,9 @@
             width:100%;
         }
     }
+    .menu_item[chosen="true"]{
+        background-color: #5bb9c0;
+    }
     @media screen and (max-width:940px){
         .menu_item p{
             display:none;
@@ -296,7 +299,7 @@
         }
         #title_logo_small{
             display:block;
-            background-image: url("favicon.png");
+            background-image: url("$lib/images/favicon.png");
             background-size: contain;
             background-position: center;
             background-repeat: no-repeat;
@@ -304,7 +307,7 @@
         }
         #title_logo{
             display:none; 
-            background-image: url("favicon.png");
+            background-image: url("$lib/images/favicon.png");
         }
     }
 </style>

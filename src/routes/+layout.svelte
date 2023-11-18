@@ -93,24 +93,24 @@
       if (dataStoreVariable.basicinfo.is_doctor == true){
             q = query(
             collection(db, "reports"),
-            where("allowed_doctors", "array-contains", authStoreVariable.uid),orderBy("created", "desc"),limit(10)
+            where("allowed_doctors", "array-contains", authStoreVariable.uid),orderBy("created", "desc")
       );
       }else{
             q = query(
             collection(db, "reports"),
-            where("patient_id", "==", authStoreVariable.uid),orderBy("created", "desc"),limit(10)
+            where("patient_id", "==", authStoreVariable.uid),orderBy("created", "desc")
         );
         }
     const snapshot = await getCountFromServer(q);
     if (dataStoreVariable.basicinfo.is_doctor == true){
             q = query(
             collection(db, "chat"),
-            where("doctor_id", "==", authStoreVariable.uid),orderBy("date_started", "desc"),limit(10)
+            where("doctor_id", "==", authStoreVariable.uid),orderBy("date_started", "desc")
         );
         }else{
             q = query(
             collection(db, "chat"),
-            where("patient_id", "==", authStoreVariable.uid),orderBy("date_started", "desc"),limit(10)
+            where("patient_id", "==", authStoreVariable.uid),orderBy("date_started", "desc")
         );
         }
     const snapshot2 = await getCountFromServer(q);
@@ -174,7 +174,7 @@
   });
 </script>
 
-<div id="output">
+<div id="output" out:blur={{ duration: 0 }} in:blur={{ duration: 300 }}>
   <slot />
 </div>
 

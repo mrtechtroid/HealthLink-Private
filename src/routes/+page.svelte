@@ -138,7 +138,7 @@
     min-height: 75vh;
     height: fit-content;
     background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)),
-      url("background-image.jpg");
+      url("$lib/images/background-image.jpg");
     background-size: cover;
     background-position: center;
     display: flex;
@@ -255,7 +255,7 @@
         rgba(206, 252, 241, 0.9),
         rgba(244, 222, 255, 0.9)
       ),
-      url("bgvev1.png");
+      url("$lib/images/bgvev1.png");
     /* background-image: linear-gradient(rgba(0,0,0,0.75),rgba(0,0,0,0.75)),url(background-image.jpg); */
   }
 
