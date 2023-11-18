@@ -203,16 +203,30 @@
                     ></tr
                 >
             </table>
-            <button
+            <center>
+                <button class = "msger-send-btn"
                 on:click={function () {
                     updateReport();
                 }}>Update Report</button
             >
+            </center>
+            
         {/if}
     </div>
 </Dashboard>
 
 <style>
+    .msger-send-btn {
+        background: rgb(0, 196, 65);
+        color: #fff;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.23s;
+        padding: 10px;
+        border: none;
+        border-radius: 3px;
+        font-size: 1em;
+    }
     table,
     th,
     td {
