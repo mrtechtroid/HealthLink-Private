@@ -158,7 +158,11 @@
                 chat_ended: true,
             });
     }
+    let ask_progress = false
     async function askHealthCareProf() {
+        if (ask_progress == true){
+            return
+        }
         if (chatInfo != {} && chatInfo.chat_ended && reportID != "") {
             const docRef = doc(db, "reports", chatInfo.report);
             const docSnap = await getDoc(docRef);
@@ -194,7 +198,9 @@
                 console.log("No such document!");
             }
         } else {
-            let report_num = db_messages.length - 1;
+            ask_progress = true
+            try{
+                let report_num = db_messages.length - 1;
             for (var i = db_messages.length - 1; i > 0; i--) {
                 if (
                     db_messages[i].role == "assistant" &&
@@ -209,7 +215,7 @@
             }else{
                 db_messages[report_num].doctor_type = "General practitioner"
             }
-            const docRef = await addDoc(collection(db, "reports"), {
+            await addDoc(collection(db, "reports"), {
                 patient_id: authStoreVariable.uid,
                 patient_info: {
                     ...dataStoreVariable,
@@ -237,13 +243,18 @@
                 last_updated: serverTimestamp(),
                 final_verdict: {stage:"Preliminary ChatBot Examination",prescription:""},
                 attachments: "",
+            }).then(async function(docRef){
+                reportID = docRef.id;
+                await updateDoc(doc(db, "chat", chatID), {
+                    date_ended: serverTimestamp(),
+                    chat_ended: true,
+                    report: reportID,
+                });
             });
-            reportID = docRef.id;
-            await updateDoc(doc(db, "chat", chatID), {
-                date_ended: serverTimestamp(),
-                chat_ended: true,
-                report: reportID,
-            });
+            }catch{
+                
+            }
+            ask_progress = false
         }
     }
     $: if (Object.keys(chatInfo).length && chatInfo.is_chatbot) {
@@ -328,7 +339,7 @@
         await updateDoc(doc(db, "chat", chatID), {
             db_messages: chatInfo.db_messages,
         });
-        check_chatBot(chatInfo.db_messages)
+        // check_chatBot(chatInfo.db_messages)
     }
     async function runConversation(gh) {
         let db_messages = [...gh];
@@ -649,6 +660,10 @@
                         }}>Chat with Doctor</button
                     >
                 {/if}
+            {:else if chatInfo.chat_ended==true}
+            <span style="color:black"
+            >No Doctors Currently Available:</span
+        >
             {/if}
         </main>
         <div id="msger-inputarea">
