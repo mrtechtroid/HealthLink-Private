@@ -70,6 +70,7 @@
     }
     async function getReportList() {
         let q;
+        console.log(dataStoreVariable.basicinfo)
         if (dataStoreVariable.basicinfo.is_doctor == true){
             q = query(
             collection(db, "reports"),
@@ -116,8 +117,7 @@
     const snapshot2 = await getCountFromServer(q);
     extraStore.update(function(state){return {chatcount:snapshot2.data().count,reportcount:snapshot.data().count,retrivedresource:true}})
   }
-  onMount(function () {
-    
+  // onMount(function () {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
       const currentPath = window.location.pathname;
       // If user is logged out OR User is not in a page which doesnt require authentication. Redirect him
@@ -171,7 +171,7 @@
       // goto("/onboarding")
       // Implement code for getting user details and store it in `dataStore.basicinfo`
     });
-  });
+  // });
 </script>
 
 <div id="output" out:blur={{ duration: 0 }} in:blur={{ duration: 300 }}>

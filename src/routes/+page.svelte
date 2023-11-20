@@ -36,7 +36,7 @@
     </div>
   </div>
   <!-- <img src="arrow-4.png" class="pic2"> -->
-  <div class="feature">
+  <div class="feature" id = "feature2">
     <div>
       <h2>Instant Reports</h2>
       <span
@@ -280,7 +280,8 @@
     align-items: center;
     justify-content: space-evenly;
   }
-  .feature:nth-child(2n) {
+  .feature:nth-child(2n+1) {
+    flex-direction: column-reverse;
   }
 
   .feature div {
