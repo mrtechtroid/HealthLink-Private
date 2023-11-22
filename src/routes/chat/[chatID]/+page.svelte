@@ -36,7 +36,7 @@
     return { update: scroll }
 };
     const openai = new OpenAI({
-        apiKey: "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",
+        apiKey: "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",
         dangerouslyAllowBrowser: true,
     });
     let authStoreVariable, dataStoreVariable;
@@ -476,6 +476,9 @@
             {#if db_messages != undefined}
                 {#if db_messages.length <= 1}
                     <div>Say Hi to start the Conversation.</div>
+                {/if}
+                {#if chatInfo.is_chatbot == true}
+                    <div>Note: Due to OpenAI recently modifying the request limits for the free tier to 3 requests per minute, the Chatbot will not respond to your messages, if you chat more than three messages per minute. We are Sorry for the inconvience. </div>
                 {/if}
                 {#each db_messages as item, index}
                     {#if item.role == "system"}
